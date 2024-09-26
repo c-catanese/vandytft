@@ -1,9 +1,10 @@
 @import '../../../css/colors.scss';
 
-.homepageContainer{
-  width: 100vw;
-  min-height: calc(100vh - 100px);
+.leaderboardContainer{
+  width: 90vw;
+  height: 100%;
   background-color: $primaryColor;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;

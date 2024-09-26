@@ -1,6 +1,5 @@
-import React from 'react';
-import styles from './Homepage.module.scss'
-import Leaderboard from '../../../Components/Leaderboard/Leaderboard';
+import Leaderboard from '../../../Components/Leaderboard/MainLeaderboard/MainLeaderboard';
+import styles from './Homepage.module.scss';
 const Homepage = () => {
  
   return(

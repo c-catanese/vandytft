@@ -1,0 +1,78 @@
+@import '../../../css/colors.scss';
+
+.rankDelineator{
+  width: 100%;
+  background-color: $neutralLightGray;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.sectionHeading{
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 800px;
+  height: 40px;
+  background-color: $neutralCream;
+  display: grid;
+  grid-template-columns: 100px 400px 100px;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  align-items: center;
+}
+
+
+.user{
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 800px;
+  height: 30px;
+  background-color: $neutralCream;
+  display: grid;
+  grid-template-columns: 100px 400px 100px;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  align-items: center;
+}
+
+.place{
+  
+}
+
+.username{
+  margin-left: 30px;
+}
+
+
+.rank{
+  display: inline;
+  white-space: nowrap;
+  margin-left: 30px;
+}
+
+
+.lbSection{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.seperator{
+  width: 3px;
+  height: 30px;
+  background-color: black;
+  border-radius: 1px;
+}
+
+.smallSeperator{
+  width: 3px;
+  height: 22px;
+  background-color: black;
+  border-radius: 1px;
+}
