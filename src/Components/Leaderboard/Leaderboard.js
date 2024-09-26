@@ -40,12 +40,11 @@ const Leaderboard = () => {
 
   return(
     <div className={styles.leaderboardContainer}>
-
       <div className={styles.userList}>
-        <div className={styles.rankDelineator}>
+        <div className={styles.rankDelineator}>Challenger</div>
+        <div className={styles.sectionHeading}>
           <p>Place</p>
           <p>Username</p>
-          <p>Rank</p>
           <p>Rank</p>
         </div>
         {challPlayers.map((user, index) => (
