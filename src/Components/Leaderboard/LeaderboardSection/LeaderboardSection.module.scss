@@ -2,12 +2,16 @@
 
 .rankDelineator{
   width: 100%;
-  background-color: $neutralLightGray;
+  background-color: transparent;
   height: 100px;
   display: flex;
+  font-size: 30pt;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  font-family: copperplate;
+  margin-left: -30px;
+  margin-bottom: 10px;
 }
 
 .sectionHeading{
@@ -15,9 +19,10 @@
   padding-right: 10px;
   width: 800px;
   height: 40px;
-  background-color: $neutralCream;
+  background-color: $black;
+  color: $white;
   display: grid;
-  grid-template-columns: 100px 400px 100px;
+  grid-template-columns: 100px 275px 220px 180px;
   border-radius: 4px;
   margin-top: 10px;
   margin-bottom: 5px;
@@ -30,30 +35,30 @@
   padding-right: 10px;
   width: 800px;
   height: 30px;
-  background-color: $neutralCream;
+  background-color: $black;
+  color: $white;
   display: grid;
-  grid-template-columns: 100px 400px 100px;
+  grid-template-columns: 100px 275px 220px 180px;
   border-radius: 4px;
   margin-top: 10px;
   margin-bottom: 5px;
   align-items: center;
 }
 
-.place{
-  
-}
-
 .username{
-  margin-left: 30px;
+  margin-left: 15px;
 }
 
 
 .rank{
   display: inline;
   white-space: nowrap;
-  margin-left: 30px;
+  margin-left: 15px;
 }
 
+.classOf{
+  margin-left: 15px;
+}
 
 .lbSection{
   display: flex;
@@ -64,15 +69,74 @@
 
 
 .seperator{
-  width: 3px;
+  width: 2px;
   height: 30px;
-  background-color: black;
+  background-color: $white;
   border-radius: 1px;
 }
 
 .smallSeperator{
-  width: 3px;
+  width: 2px;
   height: 22px;
-  background-color: black;
   border-radius: 1px;
+  background-color: $white;
+}
+
+.rankLogo{
+  width: 80px;
+  height: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.noPlayers{
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 800px;
+  height: 40px;
+  background-color: $black;
+  color: $white;
+  display: grid;
+  grid-template-columns: 100px 275px 220px 180px;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  align-items: center;
+}
+
+.Challenger{
+  background-image: url('../../../images/challenger.png')
+}
+
+.Grandmaster{
+  background-image: url('../../../images/grandmaster.png')
+}
+
+.Master{
+  background-image: url('../../../images/master.png')
+}
+.Diamond{
+  background-image: url('../../../images/diamond.png')
+}
+.Emerald{
+  background-image: url('../../../images/emerald.png')
+}
+.Platinum{
+  background-image: url('../../../images/platinum.png')
+}
+.Gold{
+  background-image: url('../../../images/gold.png')
+}
+.Silver{
+  background-image: url('../../../images/silver.png')
+}
+.Bronze{
+  background-image: url('../../../images/bronze.png')
+}
+.Iron{
+  margin-top: -10px;
+  background-image: url('../../../images/iron.png')
+}
+.Unranked{
+  background-image: url('../../../images/unranked.png')
 }

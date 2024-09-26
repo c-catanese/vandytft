@@ -52,7 +52,6 @@ const MainLeaderboard = () => {
         <LeaderboardSection users={bronzePlayers} rank={'Bronze'} countStart={challPlayers.length + gmPlayers.length + masterPlayers.length + diamondPlayers.length + emeraldPlayers.length + platinumPlayers.length + goldPlayers.length + silverPlayers.length + 1}/>
         <LeaderboardSection users={ironPlayers} rank={'Iron'} countStart={challPlayers.length + gmPlayers.length + masterPlayers.length + diamondPlayers.length + emeraldPlayers.length + platinumPlayers.length + goldPlayers.length + silverPlayers.length + bronzePlayers.length + 1}/>
         <LeaderboardSection users={unrankedPlayers} rank={'Unranked'} countStart={challPlayers.length + gmPlayers.length + masterPlayers.length + diamondPlayers.length + emeraldPlayers.length + platinumPlayers.length + goldPlayers.length + silverPlayers.length + bronzePlayers.length + ironPlayers.length + 1}/>
-
     </div>
   )
 }

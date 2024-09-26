@@ -1,43 +1,54 @@
 import styles from './LeaderboardSection.module.scss';
 
 const LeaderboardSection = ({users, rank, countStart}) => {
-  console.log(users)
   return(
-    <>
-      <div className={styles.rankDelineator}>{rank}</div>
+    <div style={{ marginBottom: rank === 'Unranked' ? '200px' : '0', marginTop: rank === 'Challenger' ? '20px' : '40px' }}>
+      <div className={styles.rankDelineator}><a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a>{rank}</div>
       {users.length ? (
         <>
           <div className={styles.sectionHeading}>
             <div className={styles.lbSection}>
-              <p className={styles.place}>Place</p>
+              <span>Place</span>
               <div className={styles.seperator}/>
             </div>
             <div className={styles.lbSection}>
-              <p className={styles.username}>Username</p>
+              <span className={styles.username}>Username</span>
               <div className={styles.seperator}/>
             </div>
-            <p className={styles.rank}>Rank</p>
+            <div className={styles.lbSection}>
+              <span className={styles.rank}>Rank</span>
+              <div className={styles.seperator}/>
+            </div>
+            <div className={styles.lbSection}>
+              <span className={styles.classOf}>Graduation Class</span>
+            </div>
           </div>
           {users.map((user, index) => (
             <div key={index} className={styles.user}>
               <div className={styles.lbSection}>
-                <p className={styles.place}>{index + countStart}</p>
+                <span>{index + countStart}</span>
                 <div className={styles.smallSeperator}/>
               </div>
               <div className={styles.lbSection}>
-                <p className={styles.username}>{user.username}</p>
+                <span className={styles.username}>{user.username}</span>
                 <div className={styles.smallSeperator}/>
               </div>
-              <span className={styles.rank}>{user.rank} {user.lp} lp</span>
+              <div className={styles.lbSection}>
+                <span className={styles.rank}>{user.rank} {user.lp} lp</span>
+                <div className={styles.smallSeperator}/>
+              </div>
+              <div className={styles.lbSection}>
+                <span className={styles.classOf}>2022</span>
+              </div>
             </div>
           ))}
         </>
       ) : (
         <div className={styles.sectionHeading}>
-          <p>No {rank} players</p>
+          <span>No {rank} players</span>
         </div>
       )}
-  </>
+  </div>
   )
 }
 
