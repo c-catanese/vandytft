@@ -1,0 +1,9 @@
+@import '../../../css/colors.scss';
+
+.homepageContainer{
+  position: fixed;
+  width: 100vw;
+  height: calc(100vh - 100px);
+  background-color: $primaryColor;
+  margin-top: 100px;
+}

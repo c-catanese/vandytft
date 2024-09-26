@@ -1,0 +1,23 @@
+@import '../../css/colors.scss';
+
+.leaderboardContainer{
+  position: fixed;
+  width: 90vw;
+  background-color: $primaryColor;
+  margin-top: 100px;
+}
+
+.rankDelineator{
+  width: 100%;
+  background-color: $neutralCream;
+  height: 100px;
+}
+
+
+.user{
+  width: 100%;
+  background-color: $black;
+  color: $primaryColor;
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px;
+}
