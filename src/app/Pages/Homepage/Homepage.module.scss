@@ -9,59 +9,8 @@
   align-items: center;
 }
 
-.userContainer{
-  width: 700px;
-  height: 30px;
-  background-color: $oak;
-  color: $white;
-  display: grid;
-  grid-template-columns: 100px 250px 250px 100px;
-  border-radius: 4px;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  align-items: center;
-  transition: transform .4s ease-out;
-  transform: scaleX(1) scaleY(1);
-  margin-bottom: 40px;
-}
-
-.username{
-  margin-left: 15px;
-}
-
-.place{
-  margin-left: 15px;
-  cursor: default;
-}
-
-.rank{
-  display: inline;
-  white-space: nowrap;
-  margin-left: 15px;
-  cursor: default;
-}
-
-.classOf{
-  margin-left: 15px;
-  cursor: default;
-}
-
-.section{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.smallSeperator{
-  width: 2px;
-  height: 22px;
-  border-radius: 1px;
-  background-color: $white;
-}
-
 .title{
-  color: $oak;
+  color: $black;
   font-size: 30pt;
   font-weight: 400;
   font-family: copperplate;

@@ -34,57 +34,6 @@
   align-items: center;
 }
 
-
-.user{
-  width: 700px;
-  height: 30px;
-  background-color: $black;
-  color: $white;
-  display: grid;
-  grid-template-columns: 100px 250px 250px 100px;
-  border-radius: 4px;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  align-items: center;
-  transition: transform .4s ease-out;
-  transform: scaleX(1) scaleY(1);
-}
-.user:hover{
-  transition: transform 0.2s ease; 
-  transform: scaleX(1.02) scaleY(1.15);  
-}
-
-
-.username{
-  margin-left: 15px;
-}
-
-.place{
-  margin-left: 15px;
-  cursor: default;
-}
-
-
-.rank{
-  display: inline;
-  white-space: nowrap;
-  margin-left: 15px;
-  cursor: default;
-}
-
-.classOf{
-  margin-left: 15px;
-  cursor: default;
-}
-
-.lbSection{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-
 .seperator{
   width: 2px;
   height: 30px;
@@ -92,11 +41,11 @@
   border-radius: 1px;
 }
 
-.smallSeperator{
-  width: 2px;
-  height: 22px;
-  border-radius: 1px;
-  background-color: $white;
+.lbSection{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .rankLogo{
