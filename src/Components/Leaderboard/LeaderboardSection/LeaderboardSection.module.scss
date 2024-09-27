@@ -21,33 +21,6 @@
   margin-bottom: 10px;
 }
 
-.sectionHeading{
-  width: 700px;
-  height: 40px;
-  background-color: $black;
-  color: $white;
-  display: grid;
-  grid-template-columns: 100px 250px 250px 100px;
-  border-radius: 4px;
-  margin-top: 10px;
-  margin-bottom: 8px;
-  align-items: center;
-}
-
-.seperator{
-  width: 2px;
-  height: 30px;
-  background-color: $white;
-  border-radius: 1px;
-}
-
-.lbSection{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .rankLogo{
   width: 80px;
   height: 80px;
