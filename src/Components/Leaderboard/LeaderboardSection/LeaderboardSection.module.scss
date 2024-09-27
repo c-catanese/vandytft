@@ -25,7 +25,7 @@
   grid-template-columns: 100px 275px 220px 180px;
   border-radius: 4px;
   margin-top: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   align-items: center;
 }
 
@@ -40,13 +40,26 @@
   display: grid;
   grid-template-columns: 100px 275px 220px 180px;
   border-radius: 4px;
-  margin-top: 10px;
-  margin-bottom: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
   align-items: center;
+  transition: transform 0.3s ease-out; // Apply smooth transition for both entering and exiting hover
+
+  // Default transform (no scaling when not hovered)
+  transform: scaleX(1) scaleY(1);
 }
+.user:hover{
+  transition: transform 0.3s ease; // Add smooth transform transition
+  transform: scaleX(1.01) scaleY(1.1);  // 1.1 for width, 1.05 for height
+}
+
 
 .username{
   margin-left: 15px;
+}
+
+.place{
+  cursor: default;
 }
 
 
@@ -54,10 +67,12 @@
   display: inline;
   white-space: nowrap;
   margin-left: 15px;
+  cursor: default;
 }
 
 .classOf{
   margin-left: 15px;
+  cursor: default;
 }
 
 .lbSection{
@@ -102,6 +117,7 @@
   margin-top: 10px;
   margin-bottom: 5px;
   align-items: center;
+  cursor: default;
 }
 
 .Challenger{
