@@ -1,5 +1,12 @@
 @import '../../../css/colors.scss';
 
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .rankDelineator{
   width: 100%;
   background-color: transparent;
@@ -10,19 +17,16 @@
   align-items: center;
   justify-content: center;
   font-family: copperplate;
-  margin-left: -30px;
   margin-bottom: 10px;
 }
 
 .sectionHeading{
-  padding-left: 10px;
-  padding-right: 10px;
-  width: 800px;
+  width: 700px;
   height: 40px;
   background-color: $black;
   color: $white;
   display: grid;
-  grid-template-columns: 100px 275px 220px 180px;
+  grid-template-columns: 100px 250px 250px 100px;
   border-radius: 4px;
   margin-top: 10px;
   margin-bottom: 8px;
@@ -31,14 +35,12 @@
 
 
 .user{
-  padding-left: 10px;
-  padding-right: 10px;
-  width: 800px;
+  width: 700px;
   height: 30px;
   background-color: $black;
   color: $white;
   display: grid;
-  grid-template-columns: 100px 275px 220px 180px;
+  grid-template-columns: 100px 250px 250px 100px;
   border-radius: 4px;
   margin-top: 3px;
   margin-bottom: 3px;
@@ -59,6 +61,7 @@
 }
 
 .place{
+  margin-left: 15px;
   cursor: default;
 }
 
@@ -100,6 +103,7 @@
 .rankLogo{
   width: 80px;
   height: 80px;
+  margin: 0px 30px;
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -111,23 +115,27 @@
   height: 40px;
   background-color: $black;
   color: $white;
-  display: grid;
-  grid-template-columns: 100px 275px 220px 180px;
+  display: flex;
   border-radius: 4px;
   margin-top: 10px;
   margin-bottom: 5px;
   align-items: center;
+  justify-content: center;
   cursor: default;
+}
+
+.noPlayer{
+  width: fit-content;
+  text-align: center;
+  align-self: center;
 }
 
 .Challenger{
   background-image: url('../../../images/challenger.png')
 }
-
 .Grandmaster{
   background-image: url('../../../images/grandmaster.png')
 }
-
 .Master{
   background-image: url('../../../images/master.png')
 }
@@ -150,7 +158,6 @@
   background-image: url('../../../images/bronze.png')
 }
 .Iron{
-  margin-top: -10px;
   background-image: url('../../../images/iron.png')
 }
 .Unranked{

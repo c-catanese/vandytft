@@ -3,7 +3,7 @@ import styles from './LeaderboardSection.module.scss';
 const LeaderboardSection = ({users, rank, countStart}) => {
   return(
     <div style={{ marginBottom: rank === 'Unranked' ? '200px' : '0', marginTop: rank === 'Challenger' ? '20px' : '10px' }}>
-      <div className={styles.rankDelineator}><a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a>{rank}</div>
+      <div className={styles.rankDelineator}><a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a>{rank}<a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a></div>
       {users.length ? (
         <div className={styles.container}>
           <div className={styles.sectionHeading}>
@@ -20,7 +20,7 @@ const LeaderboardSection = ({users, rank, countStart}) => {
               <div className={styles.seperator}/>
             </div>
             <div className={styles.lbSection}>
-              <span className={styles.classOf}>Graduation Class</span>
+              <span className={styles.classOf}>Class</span>
             </div>
           </div>
           {users.map((user, index) => (
@@ -44,8 +44,8 @@ const LeaderboardSection = ({users, rank, countStart}) => {
           ))}
         </div>
       ) : (
-        <div className={styles.sectionHeading}>
-          <span>No {rank} players</span>
+        <div className={styles.noPlayers}>
+          <span className={styles.noPlayer}>No {rank} Players</span>
         </div>
       )}
   </div>
