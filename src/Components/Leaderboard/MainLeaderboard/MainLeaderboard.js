@@ -1,8 +1,7 @@
-import dummydata from '../../../dummydata.json';
 import LeaderboardSection from '../LeaderboardSection/LeaderboardSection';
 import styles from './MainLeaderboard.module.scss';
 
-const MainLeaderboard = () => {
+const MainLeaderboard = ( { users } ) => {
   const rankOrder = ["Challenger", "Grandmaster", "Master", 
     "Diamond 1", "Diamond 2", "Diamond 3", "Diamond 4",
     "Emerald 1", "Emerald 2", "Emerald 3", "Emerald 4",
@@ -13,7 +12,7 @@ const MainLeaderboard = () => {
     "Iron 1", "Iron 2", "Iron 3", "Iron 4"];
 
   const filterAndSortPlayers = (rankKeyword, count) => {
-    return dummydata.users
+    return users
         .filter(user => user.rank.includes(rankKeyword))
         .sort((a, b) => {
             const rankA = rankOrder.indexOf(a.rank);
@@ -25,8 +24,8 @@ const MainLeaderboard = () => {
         });
   };
 
-  const playerCount = dummydata['users'].length;
-  const users = filterAndSortPlayers(dummydata['users'])
+  const playerCount = users.length;
+  // const allUsers = filterAndSortPlayers(users['users'])
   const challPlayers = filterAndSortPlayers("Challenger")
   const gmPlayers = filterAndSortPlayers("Grandmaster")
   const masterPlayers = filterAndSortPlayers("Master")

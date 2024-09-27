@@ -2,8 +2,8 @@ import styles from './LeaderboardSection.module.scss';
 
 const LeaderboardSection = ({users, rank, countStart}) => {
   return(
-    <div style={{ marginBottom: rank === 'Unranked' ? '200px' : '0', marginTop: rank === 'Challenger' ? '20px' : '10px' }}>
-      <div className={styles.rankDelineator}><a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a>{rank}<a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a></div>
+    <div style={{ marginBottom: rank === 'Unranked' ? '200px' : '0'}}>
+      <h2 className={styles.rankDelineator}><a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a>{rank}<a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a></h2>
       {users.length ? (
         <div className={styles.container}>
           <div className={styles.sectionHeading}>

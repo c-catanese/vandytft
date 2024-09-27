@@ -13,6 +13,7 @@
   height: 100px;
   display: flex;
   font-size: 30pt;
+  font-weight: 400;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -45,14 +46,12 @@
   margin-top: 3px;
   margin-bottom: 3px;
   align-items: center;
-  transition: transform 0.3s ease-out; // Apply smooth transition for both entering and exiting hover
-
-  // Default transform (no scaling when not hovered)
+  transition: transform .4s ease-out;
   transform: scaleX(1) scaleY(1);
 }
 .user:hover{
-  transition: transform 0.3s ease; // Add smooth transform transition
-  transform: scaleX(1.01) scaleY(1.1);  // 1.1 for width, 1.05 for height
+  transition: transform 0.2s ease; 
+  transform: scaleX(1.02) scaleY(1.15);  
 }
 
 
@@ -111,7 +110,7 @@
 .noPlayers{
   padding-left: 10px;
   padding-right: 10px;
-  width: 800px;
+  width: 700px;
   height: 40px;
   background-color: $black;
   color: $white;
