@@ -1,7 +1,7 @@
-import dummydata from '../../../dummydata.json';
-import Leaderboard from '../../../Components/Leaderboard/MainLeaderboard/MainLeaderboard';
-import styles from './Homepage.module.scss';
 import UserInfo from '@/Components/UserInfo/UserInfo';
+import dummydata from '../../dummydata.json';
+import Leaderboard from '../Leaderboard/MainLeaderboard/MainLeaderboard';
+import styles from './Homepage.module.scss';
 
 const Homepage = () => {
   const user = dummydata.users[0]
