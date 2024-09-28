@@ -4,7 +4,78 @@
   width: 100vw;
   min-height: calc(100vh - 100px);
   background-color: $primaryColor;
+  display: grid;
+  grid-template-columns: 33% 1fr;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.loginColumn {
+  background-color: #807b6c;
+  min-height: calc(100vh - 100px);
+  left: 0;
   display: flex;
+  padding-top: 30%;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  transition: transform 0.5s ease;
+}
+
+.loginColumn.slide-in {
+  animation: slideIn 0.5s forwards;
+}
+
+.loginColumn.slide-out {
+  animation: slideOut 0.5s forwards;
+}
+
+
+.loginTitle{
+  font-size: 24pt;
+}
+
+.titleColumn{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 30pt;
+}
+
+.emailInput{
+  margin: 20px 0px 0px 0px;
+}
+
+.passwordInput{
+  margin: 20px 0px;
+
+}
+
+.vanderbiltStar{
+  width: 100px;
+  height: 100px;
+  background-image: url('../../../images/vanderbiltstar.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-right: 20px;
+  border: none;
 }

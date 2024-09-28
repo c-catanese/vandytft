@@ -10,17 +10,16 @@ const Header = () => {
     
   const rerouteToPage = (page) => {
     return () => {
-      router.push(page); // Navigate to the specified page
+      router.push(page); 
     };
   };
 
   return(
     <header className={styles.headerContainer}>
-      <a className={styles.vanderbiltLogo}></a>
-      {/* <h1 className={styles.title}>Vanderbilt TFT</h1> */}
+      <a className={styles.vanderbiltLogo} onClick={rerouteToPage('/')}></a>
       <div className={styles.accountNav}>
         <DefaultButton text={'Login'} func={rerouteToPage('/auth/login')}/>
-        <DefaultButton text={'Sign Up'} func={rerouteToPage('/auth/signUp')}/>
+        <DefaultButton text={'Sign Up'} func={rerouteToPage('/auth/signup')}/>
       </div>
     </header>
   )
