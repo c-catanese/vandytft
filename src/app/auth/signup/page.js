@@ -10,8 +10,9 @@ const SignUp = () => {
 
   const [loginSlideClass, setLoginSlideClass] = useState('slide-in-left');
   const [titleSlideClass, setTitleSlideClass] = useState('slide-in-right'); 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
 
@@ -59,6 +60,8 @@ const SignUp = () => {
             <input className={`${styles.input} ${styles.email}`} placeholder="Email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
             {invalidEmail && (<p className={styles.formError}>You must be using a Vanderbilt email.</p>)}
             <input className={`${styles.input} ${styles.password}`} placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+            {invalidPassword && (<p className={styles.formError}>Password must be at lease 8 characters long.</p>)}
+            <input className={`${styles.input} ${styles.password}`} placeholder="Username" type="Text" value={username} onChange={(e) => setUsername(e.target.value)}/>
             {invalidPassword && (<p className={styles.formError}>Password must be at lease 8 characters long.</p>)}
             <button>Submit</button>
           </form>
