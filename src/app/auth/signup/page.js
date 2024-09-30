@@ -14,43 +14,66 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
-  const [tagline, setTagline] = useState('#')
+  const [tagline, setTagline] = useState('#');
   const [gradClass, setGradClass] = useState('');
-
 
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
+  const createUser = async (userData) => {
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
 
-    if(!email.endsWith('@vanderbilt.edu') || password.length < 8){
-      if(password.length < 8){
-        setInvalidPassword(true)
+    // Validate email and password
+    if (!email.endsWith('@vanderbilt.edu') || password.length < 8) {
+      if (password.length < 8) {
+        setInvalidPassword(true);
       }
-
       if (!email.endsWith('@vanderbilt.edu')) {
         setInvalidEmail(true);
       }
-      return
+      setLoading(false);
+      return;
     }
+
+    // Reset invalid states if validations pass
     if (email.endsWith('@vanderbilt.edu') && invalidEmail) {
-      setInvalidEmail(false)
+      setInvalidEmail(false);
     }
-    if(password.length > 7 && invalidEmail){
-      setInvalidPassword(false)
+    if (password.length >= 8 && invalidPassword) {
+      setInvalidPassword(false);
     }
 
+    try {
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
 
+      if (!response.ok) {
+        throw new Error('Failed to create user');
+      }
 
+      const result = await response.json();
+      setSuccess(result);
+      // Optionally, redirect or reset the form here
+      // router.push('/some-path'); // Uncomment if you want to navigate after success
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    console.log('Email:', email);
-    console.log('Password:', password);
-
-  }
-
-  useEffect(() => { //Function to have the element columns slide in
+  useEffect(() => {
     if (!router.isReady) return;
     const handleRouteChangeComplete = () => {
       setLoginSlideClass('slide-in-left'); 
@@ -64,38 +87,93 @@ const SignUp = () => {
 
   const handleTaglineChange = (value) => {
     if (value === '') {
-        return;
+      return;
     }
     if (value.length > 0 && value[0] === '#') {
-        setTagline(value); 
+      setTagline(value); 
     } else {
-        setTagline(`#${value}`);
+      setTagline(`#${value}`);
     }  
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Prepare userData for creation
+    const userData = {
+      username,      // Added username
+      password,      // Added password
+      email,         // Added email
+      classYear: gradClass, // Assuming gradClass is used for classYear
+      tagline: tagline.slice(1),       // Added tagline
+    };
   
-  return(
+    await createUser(userData);
+  };
+  
+  
+  return (
     <>
-      <Header/>
+      <Header />
       <div className={styles.loginContainer}>
         <div className={`${styles.loginColumn} ${styles[loginSlideClass]}`}>
           <h2 className={styles.loginTitle}>Sign Up</h2>
-          <form className={styles.signUpForm} onSubmit={handleSignUp}>
-            <input className={`${styles.input} ${styles.email}`} placeholder="Email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <form className={styles.signUpForm} onSubmit={handleSubmit}>
+            <input 
+              className={`${styles.input} ${styles.email}`} 
+              placeholder="Email" 
+              type="text" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+            />
             {invalidEmail && (<p className={styles.formError}>You must be using a Vanderbilt email.</p>)}
 
-            <input className={`${styles.input} ${styles.password}`} placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-            {invalidPassword && (<p className={styles.formError}>Password must be at lease 8 characters long.</p>)}
+            <input 
+              className={`${styles.input} ${styles.password}`} 
+              placeholder="Password" 
+              type="password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+            />
+            {invalidPassword && (<p className={styles.formError}>Password must be at least 8 characters long.</p>)}
 
             <div className={styles.usernameContainer}>
-              <input className={`${styles.input} ${styles.username}`} placeholder="Username" type="Text" value={username} onChange={(e) => setUsername(e.target.value)}/>
-              <input className={`${styles.input} ${styles.tagline}`} placeholder="Tagline" type="Text"  maxLength={6} value={tagline} onChange={(e) => handleTaglineChange(e.target.value)} onFocus={(e) => e.target.setSelectionRange(1, 1)}/>
+              <input 
+                className={`${styles.input} ${styles.username}`} 
+                placeholder="Username" 
+                type="text" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)} 
+              />
+              <input 
+                className={`${styles.input} ${styles.tagline}`} 
+                placeholder="Tagline" 
+                type="text"  
+                maxLength={6} 
+                value={tagline} 
+                onChange={(e) => handleTaglineChange(e.target.value)} 
+                onFocus={(e) => e.target.setSelectionRange(1, 1)} 
+              />
             </div>
 
-
-            <input className={`${styles.input} ${styles.password}`} placeholder="Class (YYYY)" type="Text" maxLength={4} value={gradClass} onChange={(e) => setGradClass(e.target.value)}/>
-
-
-            <button>Submit</button>
+            <input 
+              className={`${styles.input} ${styles.class}`} 
+              placeholder="Class (YYYY)" 
+              type="number" 
+              max={9999} 
+              value={gradClass}  
+              onChange={(e) => {
+                const value = e.target.value;    
+                if (value === '' || (/^\d{0,4}$/.test(value) && Number(value) <= 9999)) {
+                  setGradClass(value);
+                }
+              }} 
+            />
+            <button type="submit" disabled={loading}>
+              {loading ? 'Submitting...' : 'Submit'}
+            </button>
+            {error && <p className={styles.formError}>{error}</p>}
+            {success && <p className={styles.successMessage}>User created successfully!</p>}
           </form>
         </div>
         <div className={`${styles.titleColumn} ${styles[titleSlideClass]}`}>
@@ -104,7 +182,7 @@ const SignUp = () => {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default SignUp
+export default SignUp;

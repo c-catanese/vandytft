@@ -1,26 +1,21 @@
-// src/app/api/pgVersion/route.js
 import postgres from 'postgres';
 
-// Load environment variables
-const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, ENDPOINT_ID } = process.env;
+const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, ENDPOINT_ID, RIOT_KEY} = process.env;
 
-// Initialize postgres connection
 const sql = postgres({
   host: PGHOST,
   database: PGDATABASE,
   user: PGUSER,
   password: PGPASSWORD,
   port: 5432,
-  ssl: { rejectUnauthorized: false }, // Optional SSL handling
+  ssl: { rejectUnauthorized: false },
   connection: {
     application_name: ENDPOINT_ID,
   },
 });
 
-// Handler for GET and POST requests
 export async function GET(request) {
   try {
-    // Fetch all users from the database
     const users = await sql`SELECT * FROM users`;
     return new Response(JSON.stringify(users), {
       status: 200,
@@ -38,31 +33,68 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    // Parse the request body to get user data
     const body = await request.json();
-    const { username, password, email, class: classYear, value } = body;
+    const { username, password, email, classYear, tagline } = body;
 
-    // Define your API key and the endpoint
-    const apiKey = 'YOUR_RIOT_API_KEY'; // Replace with your actual API key
-    const riotApiUrl = `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${username}/${classYear}`;
+    const apiKey =  RIOT_KEY; 
+    const riotApiUrl = `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${username}/${tagline}`;
 
-    // Check if the username is valid by making a GET request to the Riot API
     const apiResponse = await fetch(riotApiUrl, {
       method: 'GET',
       headers: {
-        'X-Riot-Token': apiKey, // Set the Riot API key in the headers
+        'X-Riot-Token': apiKey, 
       },
     });
 
-    // Check if the API response is OK (status code 200)
     if (!apiResponse.ok) {
-      throw new Error('Invalid username or class year');
+      throw new Error('Invalid username or tagline');
     }
 
-    // Proceed to insert the new user into the database
+    const { puuid } = await apiResponse.json();
+
+    const summonerApiUrl = `https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${puuid}`;
+    const summonerResults = await fetch(summonerApiUrl, {
+      method: 'GET',
+      headers: {
+        'X-Riot-Token': apiKey,
+      },
+    });
+
+    if (!summonerResults.ok) {
+      throw new Error('Could not retrieve rank information');
+    }
+    const summonerData = await summonerResults.json();
+    const summonerID = summonerData?.id
+
+
+    const tftApiUrl = `https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/${summonerID}`;
+    const tftResults = await fetch(tftApiUrl, {
+      method: 'GET',
+      headers: {
+        'X-Riot-Token': apiKey,
+      },
+    });
+
+    if (!tftResults.ok) {
+      throw new Error('Could not retrieve rank information');
+    }
+
+    const tftData = await tftResults.json();
+    console.log(tftData)
+    const tier = tftData[tftData.length-1].tier
+    const division = tftData[tftData.length-1].rank
+    const lp = tftData[tftData.length-1].leaguePoints
+    console.log(username)
+    console.log(password)
+    console.log(email)
+    console.log(classYear)
+    console.log(tagline)
+    console.log(tier)
+    console.log(division)
+    console.log(lp)
     const result = await sql`
-      INSERT INTO users (username, password, email, class, value)
-      VALUES (${username}, ${password}, ${email}, ${classYear}, ${value})
+      INSERT INTO users (username, password, email, class, tagline, tier, division, lp)
+      VALUES (${username}, ${password}, ${email}, ${classYear}, ${tagline}, ${tier}, ${division}, ${lp})
       RETURNING *
     `;
 
