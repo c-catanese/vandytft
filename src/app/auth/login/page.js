@@ -6,25 +6,19 @@ import { useEffect, useState } from 'react';
 import Header from '@/Components/Header/Header';
 
 const Login = () => {
-  const [slideClass, setSlideClass] = useState('slide-in'); // Initial state
+  const [loginSlideClass, setLoginSlideClass] = useState('slide-in-left');
+  const [titleSlideClass, setTitleSlideClass] = useState('slide-in-right'); 
+
   const router = useRouter();
 
-  useEffect(() => {
+  useEffect(() => { //Function to have the element columns slide in
     if (!router.isReady) return;
-
-    const handleRouteChangeStart = () => {
-      setSlideClass('slide-out'); // Trigger slide-out when navigating away
-    };
-
     const handleRouteChangeComplete = () => {
-      setSlideClass('slide-in'); // Reset to slide-in when a new route is fully loaded
+      setLoginSlideClass('slide-in-left'); 
+      setTitleSlideClass('slide-in-right'); 
     };
-
-    router.events.on('routeChangeStart', handleRouteChangeStart);
     router.events.on('routeChangeComplete', handleRouteChangeComplete);
-
     return () => {
-      router.events.off('routeChangeStart', handleRouteChangeStart);
       router.events.off('routeChangeComplete', handleRouteChangeComplete);
     };
   }, [router.events]);
@@ -33,12 +27,12 @@ const Login = () => {
     <>
       <Header/>
       <div className={styles.loginContainer}>
-        <div className={`${styles.loginColumn} ${styles[slideClass]}`}>
+        <div className={`${styles.loginColumn} ${styles[loginSlideClass]}`}>
           <h2 className={styles.loginTitle}>Login</h2>
-          <input className={styles.emailInput} placeholder='Email'></input>
-          <input className={styles.passwordInput} placeholder='Password'></input>
+          <input className={`${styles.input} ${styles.email}`} placeholder='Email'/>
+          <input className={`${styles.input} ${styles.password}`} placeholder='Password'/>
         </div>
-        <div className={styles.titleColumn}>
+        <div className={`${styles.titleColumn} ${styles[titleSlideClass]}`}>
           <div className={styles.vanderbiltStar}></div>
           <h2>Vanderbilt TFT</h2>
         </div>

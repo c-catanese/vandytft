@@ -64,6 +64,7 @@
   animation: slideOut 0.5s forwards;
 }
 
+
 .loginTitle{
   font-size: 24pt;
 }
@@ -82,8 +83,8 @@
   border-radius: 8px;
   padding-left: 5px;
   font-size: 12pt;
+  height: 30px;
   width: 300px;
-  height: 30px
 }
 
 .input:focus-visible{
@@ -95,12 +96,13 @@
   color: black
 }
 
+
 .input.email{
   margin: 40px 0px 0px 0px;
 }
 
 .input.password{
-  margin: 20px 0px;
+  margin: 20px 0px 0px 0px;
 }
 
 .vanderbiltStar{
@@ -112,4 +114,17 @@
   background-repeat: no-repeat;
   margin-right: 20px;
   border: none;
+}
+
+.signUpForm{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.formError{
+  color: darkred;
+  margin-top: 10px;
+  text-shadow: 0 0 1px white;
 }
