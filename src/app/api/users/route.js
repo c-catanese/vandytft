@@ -35,13 +35,31 @@ export async function GET(request) {
   }
 }
 
+
 export async function POST(request) {
   try {
     // Parse the request body to get user data
     const body = await request.json();
     const { username, password, email, class: classYear, value } = body;
 
-    // Insert a new user into the database
+    // Define your API key and the endpoint
+    const apiKey = 'YOUR_RIOT_API_KEY'; // Replace with your actual API key
+    const riotApiUrl = `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${username}/${classYear}`;
+
+    // Check if the username is valid by making a GET request to the Riot API
+    const apiResponse = await fetch(riotApiUrl, {
+      method: 'GET',
+      headers: {
+        'X-Riot-Token': apiKey, // Set the Riot API key in the headers
+      },
+    });
+
+    // Check if the API response is OK (status code 200)
+    if (!apiResponse.ok) {
+      throw new Error('Invalid username or class year');
+    }
+
+    // Proceed to insert the new user into the database
     const result = await sql`
       INSERT INTO users (username, password, email, class, value)
       VALUES (${username}, ${password}, ${email}, ${classYear}, ${value})

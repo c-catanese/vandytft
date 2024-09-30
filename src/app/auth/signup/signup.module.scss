@@ -105,6 +105,25 @@
   margin: 20px 0px 0px 0px;
 }
 
+
+.usernameContainer{
+  margin: 20px 0px 0px 0px;
+
+}
+
+.input.username{
+  width: 200px;
+  border-right: none;
+  border-radius: 0px;
+  border-radius: 8px 0px 0px 8px;
+}
+
+.input.tagline{
+  width: 100px;
+  border-left: none;
+  border-radius: 0px 8px 8px 0px;
+}
+
 .vanderbiltStar{
   width: 100px;
   height: 100px;
@@ -127,4 +146,5 @@
   color: darkred;
   margin-top: 10px;
   text-shadow: 0 0 1px white;
+  font-weight: bolder;
 }

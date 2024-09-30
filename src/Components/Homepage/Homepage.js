@@ -9,20 +9,25 @@ import React, { useEffect, useState } from 'react';
 const Homepage = () => {
   const user = dummydata.users[0]
 
-  const [version, setVersion] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchVersion() {
+    async function fetchUsers() {
       try {
-        const res = await fetch('/api/pgVersion');
+        const res = await fetch('/api/pgVersion'); // Adjust this to your correct API path
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
         const data = await res.json();
-        setVersion(data.version);
+        setUsers(data); // Assuming the data is an array of users
       } catch (error) {
-        console.error('Error fetching PostgreSQL version:', error);
+        console.error('Error fetching users:', error);
+        setError(error.message); // Store the error message in state for display
       }
     }
 
-    fetchVersion();
+    fetchUsers();
   }, []);
 
   
@@ -30,10 +35,6 @@ const Homepage = () => {
 
   return(
     <div className={styles.homepageContainer}>
-      <div>
-        <h1>PostgreSQL Version</h1>
-        {version ? <p>{version}</p> : <p>Loading...</p>}
-      </div>
       {user && (
         <div className={styles.column} >
           <h1 className={styles.title}>Your Profile</h1>
