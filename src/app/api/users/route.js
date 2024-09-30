@@ -84,14 +84,7 @@ export async function POST(request) {
     const tier = tftData[tftData.length-1].tier
     const division = tftData[tftData.length-1].rank
     const lp = tftData[tftData.length-1].leaguePoints
-    console.log(username)
-    console.log(password)
-    console.log(email)
-    console.log(classYear)
-    console.log(tagline)
-    console.log(tier)
-    console.log(division)
-    console.log(lp)
+
     const result = await sql`
       INSERT INTO users (username, password, email, class, tagline, tier, division, lp)
       VALUES (${username}, ${password}, ${email}, ${classYear}, ${tagline}, ${tier}, ${division}, ${lp})

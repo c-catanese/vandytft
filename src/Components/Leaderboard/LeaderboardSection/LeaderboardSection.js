@@ -4,9 +4,9 @@ import styles from './LeaderboardSection.module.scss';
 const LeaderboardSection = ({users, rank, countStart}) => {
   return(
     <div style={{ marginBottom: rank === 'Unranked' ? '200px' : '0'}}>
-      <h2 className={styles.rankDelineator}><a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a>{rank}<a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a></h2>
       {users.length ? (
         <>
+        <h2 className={styles.rankDelineator}><a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a>{rank}<a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a></h2>
           <UserInfo header={true}/>
           {users.map((user, index) => (
             <UserInfo 
@@ -19,9 +19,10 @@ const LeaderboardSection = ({users, rank, countStart}) => {
           ))}
         </>
       ) : (
-        <div className={styles.noPlayers}>
-          <span className={styles.noPlayer}>No {rank} Players</span>
-        </div>
+        <></>
+        // <div className={styles.noPlayers}>
+        //   <span className={styles.noPlayer}>No {rank} Players</span>
+        // </div>
       )}
   </div>
   )

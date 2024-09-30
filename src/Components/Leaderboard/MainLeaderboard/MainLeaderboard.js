@@ -2,41 +2,51 @@ import LeaderboardSection from '../LeaderboardSection/LeaderboardSection';
 import styles from './MainLeaderboard.module.scss';
 
 const MainLeaderboard = ( { users } ) => {
-  const rankOrder = ["Challenger", "Grandmaster", "Master", 
-    "Diamond 1", "Diamond 2", "Diamond 3", "Diamond 4",
-    "Emerald 1", "Emerald 2", "Emerald 3", "Emerald 4",
-    "Platinum 1", "Platinum 2", "Platinum 3", "Platinum 4",
-    "Gold 1", "Gold 2", "Gold 3", "Gold 4",
-    "Silver 1", "Silver 2", "Silver 3", "Silver 4",
-    "Bronze 1", "Bronze 2", "Bronze 3", "Bronze 4",
-    "Iron 1", "Iron 2", "Iron 3", "Iron 4"];
+  const rankOrder = [
+    "CHALLENGER", "GRANDMASTER", "MASTER", 
+    "DIAMOND I", "DIAMOND II", "DIAMOND III", "DIAMOND IV",
+    "EMERALD I", "EMERALD II", "EMERALD III", "EMERALD IV",
+    "PLATINUM I", "PLATINUM II", "PLATINUM III", "PLATINUM IV",
+    "GOLD I", "GOLD II", "GOLD III", "GOLD IV",
+    "SILVER I", "SILVER II", "SILVER III", "SILVER IV",
+    "BRONZE I", "BRONZE II", "BRONZE III", "BRONZE IV",
+    "IRON I", "IRON II", "IRON III", "IRON IV"
+];
 
-  const filterAndSortPlayers = (rankKeyword, count) => {
+const filterAndSortPlayers = (rankKeyword) => {
     return users
-        .filter(user => user.rank.includes(rankKeyword))
+        .filter(user => {
+            // Construct the rank string based on tier and division, convert to uppercase
+            const userRank = user.tier.toUpperCase() + (user.division ? ` ${user.division.toUpperCase()}` : "");
+            return userRank.includes(rankKeyword.toUpperCase());
+        })
         .sort((a, b) => {
-            const rankA = rankOrder.indexOf(a.rank);
-            const rankB = rankOrder.indexOf(b.rank);
-            if (rankA !== rankB) {
-                return rankA - rankB; // Sort by rank order
+            // Construct rank strings for comparison
+            const rankA = a.tier.toUpperCase() + (a.division ? ` ${a.division.toUpperCase()}` : "");
+            const rankB = b.tier.toUpperCase() + (b.division ? ` ${b.division.toUpperCase()}` : "");
+            const rankIndexA = rankOrder.indexOf(rankA);
+            const rankIndexB = rankOrder.indexOf(rankB);
+            
+            // Sort by rank order first, then by LP
+            if (rankIndexA !== rankIndexB) {
+                return rankIndexA - rankIndexB; // Sort by rank order
             }
             return b.lp - a.lp; // Sort by LP in descending order if ranks are the same
         });
-  };
+};
 
-  const playerCount = users.length;
-  // const allUsers = filterAndSortPlayers(users['users'])
-  const challPlayers = filterAndSortPlayers("Challenger")
-  const gmPlayers = filterAndSortPlayers("Grandmaster")
-  const masterPlayers = filterAndSortPlayers("Master")
-  const diamondPlayers = filterAndSortPlayers("Diamond")
-  const emeraldPlayers = filterAndSortPlayers("Emerald")
-  const platinumPlayers = filterAndSortPlayers("Platinum")
-  const goldPlayers = filterAndSortPlayers("Gold")
-  const silverPlayers = filterAndSortPlayers("Silver")
-  const bronzePlayers = filterAndSortPlayers("Bronze")
-  const ironPlayers = filterAndSortPlayers("Iron")
-  const unrankedPlayers = filterAndSortPlayers("Unranked")
+  // Example calls
+  const challPlayers = filterAndSortPlayers("CHALLENGER");
+  const gmPlayers = filterAndSortPlayers("GRANDMASTER");
+  const masterPlayers = filterAndSortPlayers("MASTER");
+  const diamondPlayers = filterAndSortPlayers("DIAMOND");
+  const emeraldPlayers = filterAndSortPlayers("EMERALD");
+  const platinumPlayers = filterAndSortPlayers("PLATINUM");
+  const goldPlayers = filterAndSortPlayers("GOLD");
+  const silverPlayers = filterAndSortPlayers("SILVER");
+  const bronzePlayers = filterAndSortPlayers("BRONZE");
+  const ironPlayers = filterAndSortPlayers("IRON");
+  const unrankedPlayers = filterAndSortPlayers("UNRANKED");
 
   return(
     <div className={styles.leadeboardContainer}>

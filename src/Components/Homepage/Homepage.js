@@ -1,21 +1,19 @@
 "use client";
 
 import UserInfo from '@/Components/UserInfo/UserInfo';
-import dummydata from '../../dummydata.json';
 import Leaderboard from '../Leaderboard/MainLeaderboard/MainLeaderboard';
 import styles from './Homepage.module.scss';
 import React, { useEffect, useState } from 'react';
 
 const Homepage = () => {
-  const user = dummydata.users[0]
-
+  const user = [];
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const res = await fetch('/api/pgVersion'); // Adjust this to your correct API path
+        const res = await fetch('/api/users'); // Adjust this to your correct API path
         if (!res.ok) {
           throw new Error('Network response was not ok');
         }
@@ -35,13 +33,13 @@ const Homepage = () => {
 
   return(
     <div className={styles.homepageContainer}>
-      {user && (
+      {user.length > 0 && (
         <div className={styles.column} >
           <h1 className={styles.title}>Your Profile</h1>
           <UserInfo user={user} year={'2022'} place={'8'}/>
         </div>
       )}
-      <Leaderboard users={dummydata.users}/>
+      <Leaderboard users={users}/>
     </div>
   )
 }
