@@ -40,7 +40,7 @@
   min-height: calc(100vh - 100px);
   left: 0;
   display: flex;
-  padding-top: 30%;
+  padding-top: 10%;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -64,6 +64,7 @@
   animation: slideOut 0.5s forwards;
 }
 
+
 .loginTitle{
   font-size: 24pt;
 }
@@ -82,8 +83,8 @@
   border-radius: 8px;
   padding-left: 5px;
   font-size: 12pt;
+  height: 30px;
   width: 300px;
-  height: 30px
 }
 
 .input:focus-visible{
@@ -95,12 +96,46 @@
   color: black
 }
 
+
 .input.email{
   margin: 40px 0px 0px 0px;
 }
 
 .input.password{
-  margin: 20px 0px;
+  margin: 20px 0px 0px 0px;
+}
+
+
+.usernameContainer{
+  margin: 20px 0px 0px 0px;
+}
+
+.input.username{
+  width: 200px;
+  border-right: none;
+  border-radius: 0px;
+  border-radius: 8px 0px 0px 8px;
+}
+
+.input.tagline{
+  width: 100px;
+  border-left: none;
+  border-radius: 0px 8px 8px 0px;
+}
+
+.input.class {
+  margin: 20px 0px 0px 0px;
+  appearance: none; /* Removes default styles in some browsers */
+  -moz-appearance: textfield; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  outline: none; /* Removes outline if you click */
+}
+
+/* Hides the spinner buttons in Webkit browsers */
+.input.class::-webkit-inner-spin-button, 
+.input.class::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Chrome and Safari */
+  margin: 0; /* Removes margin */
 }
 
 .vanderbiltStar{
@@ -112,4 +147,53 @@
   background-repeat: no-repeat;
   margin-right: 20px;
   border: none;
+}
+
+.signUpForm{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.formError{
+  color: darkred;
+  margin-top: 10px;
+  text-shadow: 0 0 1px white;
+  font-weight: bolder;
+}
+
+.submitButton{
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  margin-top: 20px;
+  background: linear-gradient(to right, $secondaryColor2,  $secondaryColor1, );;
+
+}
+
+
+@media (max-width: 1080px) {
+  .loginContainer{
+    grid-template-columns: 40% 1fr;
+  }
+  .vanderbiltStar{
+    width: 80px;
+    height: 80px;
+  }
+
+  .title{
+    font-size: 30pt;
+  }
+}
+
+@media (max-width: 900px) {
+  .titleColumn{
+    display: none;
+  }
+  .loginContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 }

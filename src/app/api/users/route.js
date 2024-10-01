@@ -1,26 +1,28 @@
-import postgres from 'postgres';
-
-const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD, ENDPOINT_ID, RIOT_KEY} = process.env;
-
-const sql = postgres({
-  host: PGHOST,
-  database: PGDATABASE,
-  user: PGUSER,
-  password: PGPASSWORD,
-  port: 5432,
-  ssl: { rejectUnauthorized: false },
-  connection: {
-    application_name: ENDPOINT_ID,
-  },
-});
+import sql from "../config/postgresConfig"
+import bcrypt from 'bcrypt';
 
 export async function GET(request) {
   try {
+    // Extract query parameters
+    const { searchParams } = new URL(request.url);
+    const email = searchParams.get('email'); // Get 'email' from query params
+
+    // If email is provided, fetch user by email
+    if (email) {
+      const user = await sql`SELECT * FROM users WHERE email = ${email}`;
+      return new Response(JSON.stringify(user), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // If no email, return all users
     const users = await sql`SELECT * FROM users`;
     return new Response(JSON.stringify(users), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
+
   } catch (error) {
     console.error('Error fetching users:', error);
     return new Response(JSON.stringify({ error: 'Failed to fetch users' }), {
@@ -36,7 +38,11 @@ export async function POST(request) {
     const body = await request.json();
     const { username, password, email, classYear, tagline } = body;
 
-    const apiKey =  RIOT_KEY; 
+    const saltRounds = 10;  
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+
+    const apiKey =  process.env.RIOT_KEY; 
     const riotApiUrl = `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${username}/${tagline}`;
 
     const apiResponse = await fetch(riotApiUrl, {
@@ -87,7 +93,7 @@ export async function POST(request) {
 
     const result = await sql`
       INSERT INTO users (username, password, email, class, tagline, tier, division, lp)
-      VALUES (${username}, ${password}, ${email}, ${classYear}, ${tagline}, ${tier}, ${division}, ${lp})
+      VALUES (${username}, ${hashedPassword}, ${email}, ${classYear}, ${tagline}, ${tier}, ${division}, ${lp})
       RETURNING *
     `;
 

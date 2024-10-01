@@ -5,38 +5,44 @@ import Leaderboard from '../Leaderboard/MainLeaderboard/MainLeaderboard';
 import styles from './Homepage.module.scss';
 import React, { useEffect, useState } from 'react';
 
-const Homepage = () => {
-  const user = [];
+
+const Homepage = ({ user }) => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true)
     async function fetchUsers() {
       try {
-        const res = await fetch('/api/users'); // Adjust this to your correct API path
+        const res = await fetch('/api/users'); 
         if (!res.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await res.json();
-        setUsers(data); // Assuming the data is an array of users
+        setUsers(data); 
+        setLoading(false)
       } catch (error) {
         console.error('Error fetching users:', error);
-        setError(error.message); // Store the error message in state for display
+        setError(error.message); 
+        setLoading(false)
       }
     }
-
     fetchUsers();
   }, []);
-
-  
 
 
   return(
     <div className={styles.homepageContainer}>
-      {user.length > 0 && (
+      {loading && (
+        <h1 className={styles.loading}>
+          Loading...
+        </h1>
+      )}
+      {user && (
         <div className={styles.column} >
           <h1 className={styles.title}>Your Profile</h1>
-          <UserInfo user={user} year={'2022'} place={'8'}/>
+          <UserInfo user={user} cookie={true}/>
         </div>
       )}
       <Leaderboard users={users}/>

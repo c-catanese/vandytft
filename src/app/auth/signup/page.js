@@ -4,6 +4,8 @@ import Header from '@/Components/Header/Header';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './signup.module.scss';
+import Cookies from 'js-cookie';
+
 
 const SignUp = () => {
   const router = useRouter();
@@ -19,7 +21,6 @@ const SignUp = () => {
 
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -64,8 +65,15 @@ const SignUp = () => {
 
       const result = await response.json();
       setSuccess(result);
-      // Optionally, redirect or reset the form here
-      // router.push('/some-path'); // Uncomment if you want to navigate after success
+      if (response.ok) {
+        Cookies.set('userEmail', data.email, {
+          expires: 30,
+          secure: process.env.NODE_ENV === 'production', 
+          sameSite: 'strict',
+        });
+        router.push('/'); 
+      }
+
     } catch (error) {
       setError(error.message);
     } finally {
@@ -83,7 +91,7 @@ const SignUp = () => {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChangeComplete);
     };
-  }, [router.events]);
+  }, [router.events, router.isReady]);
 
   const handleTaglineChange = (value) => {
     if (value === '') {
@@ -169,7 +177,7 @@ const SignUp = () => {
                 }
               }} 
             />
-            <button type="submit" disabled={loading}>
+            <button className={styles.submitButton} type="submit" disabled={loading}>
               {loading ? 'Submitting...' : 'Submit'}
             </button>
             {error && <p className={styles.formError}>{error}</p>}
@@ -178,7 +186,7 @@ const SignUp = () => {
         </div>
         <div className={`${styles.titleColumn} ${styles[titleSlideClass]}`}>
           <div className={styles.vanderbiltStar}></div>
-          <h2>Vanderbilt TFT</h2>
+          <h2 className={styles.title}>Vanderbilt TFT</h2>
         </div>
       </div>
     </>
