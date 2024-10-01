@@ -10,7 +10,6 @@ export async function POST(request) {
   }
 
   try {
-    // Query the database to find the user by email
     const user = await sql`SELECT * FROM users WHERE email = ${email}`;
 
     if (user.length === 0) {
@@ -19,7 +18,6 @@ export async function POST(request) {
 
     const userRecord = user[0];
 
-    // Compare the provided password with the hashed password stored in the database
     const passwordMatch = await bcrypt.compare(password, userRecord.password);
 
     if (!passwordMatch) {

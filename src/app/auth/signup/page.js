@@ -30,7 +30,6 @@ const SignUp = () => {
     setError(null);
     setSuccess(null);
 
-    // Validate email and password
     if (!email.endsWith('@vanderbilt.edu') || password.length < 8) {
       if (password.length < 8) {
         setInvalidPassword(true);
@@ -42,7 +41,6 @@ const SignUp = () => {
       return;
     }
 
-    // Reset invalid states if validations pass
     if (email.endsWith('@vanderbilt.edu') && invalidEmail) {
       setInvalidEmail(false);
     }

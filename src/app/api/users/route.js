@@ -3,11 +3,9 @@ import bcrypt from 'bcrypt';
 
 export async function GET(request) {
   try {
-    // Extract query parameters
     const { searchParams } = new URL(request.url);
-    const email = searchParams.get('email'); // Get 'email' from query params
+    const email = searchParams.get('email'); 
 
-    // If email is provided, fetch user by email
     if (email) {
       const user = await sql`SELECT * FROM users WHERE email = ${email}`;
       return new Response(JSON.stringify(user), {
@@ -16,7 +14,6 @@ export async function GET(request) {
       });
     }
 
-    // If no email, return all users
     const users = await sql`SELECT * FROM users`;
     return new Response(JSON.stringify(users), {
       status: 200,
@@ -97,7 +94,6 @@ export async function POST(request) {
       RETURNING *
     `;
 
-    // Return the inserted user data as a response
     return new Response(JSON.stringify(result[0]), {
       status: 201,
       headers: { 'Content-Type': 'application/json' },
