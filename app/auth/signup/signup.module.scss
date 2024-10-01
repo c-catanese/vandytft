@@ -85,6 +85,9 @@
   font-size: 12pt;
   height: 30px;
   width: 300px;
+  border: none; 
+  outline: none; 
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); 
 }
 
 .input:focus-visible{
@@ -169,7 +172,9 @@
   height: 30px;
   margin-top: 20px;
   background: linear-gradient(to right, $secondaryColor2,  $secondaryColor1, );;
-
+  border: none; 
+  outline: none; 
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); 
 }
 
 

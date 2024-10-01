@@ -14,7 +14,7 @@ const UserInfo = ({user, place, header=false, cookie=false}) => {
 
   return(
     <div className={`${styles.user} ${header ? styles.lbHeading : ''} ${cookie ? styles.noPlace : ''}`}>
-      <div className={`${styles.userSection} ${cookie ? styles.hidden : ''}`}>
+      <div className={`${styles.userSection} ${cookie ? styles.hidden : ''} ${styles.placeContainer}`}>
         <span className={styles.place }>{header ? 'Place' : place}</span>
         <div className={`${header ? styles.seperator : styles.smallSeperator}`}/>
       </div>

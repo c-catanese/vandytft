@@ -36,7 +36,7 @@ const Homepage = ({ user }) => {
     <div className={styles.homepageContainer}>
       {loading && (
         <h1 className={styles.loading}>
-          Loading...
+          Loading
         </h1>
       )}
       {user && (

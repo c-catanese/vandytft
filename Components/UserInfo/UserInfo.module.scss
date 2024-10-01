@@ -77,3 +77,37 @@
 .hidden{
   display: none;
 }
+
+
+@media (max-width: 750px) {
+  .placeContainer{
+    display: none;
+  }
+
+  .seperator{
+    display: none;
+  }
+  .smallSeperator{
+    display: none;
+  }
+
+  .user{
+    grid-template-columns: 150px 150px 30px;
+    width: 370px;
+  }
+
+  .userSection{
+    max-width: 150px;
+  }
+
+  .username{
+    width: 150px;
+  }
+  .rank{
+    width: 150px;
+  }
+  .classOf{
+    width: 30px;
+  }
+}
+

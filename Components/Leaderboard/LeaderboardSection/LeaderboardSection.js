@@ -3,7 +3,7 @@ import styles from './LeaderboardSection.module.scss';
 
 const LeaderboardSection = ({users, rank, countStart}) => {
   return(
-    <div>
+    <div className={styles.lbSectionContainer}>
       {users.length ? (
         <>
         <h2 className={styles.rankDelineator}><a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a>{rank}<a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a></h2>
