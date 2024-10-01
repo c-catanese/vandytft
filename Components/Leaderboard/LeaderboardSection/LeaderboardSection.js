@@ -1,4 +1,4 @@
-import UserInfo from '@/Components/UserInfo/UserInfo';
+import UserInfo from '../../UserInfo/UserInfo';
 import styles from './LeaderboardSection.module.scss';
 
 const LeaderboardSection = ({users, rank, countStart}) => {

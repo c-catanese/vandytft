@@ -1,10 +1,10 @@
 "use client"
 
-import Header from '@/Components/Header/Header';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Header from '../../../Components/Header/Header';
 import styles from './signup.module.scss';
-import Cookies from 'js-cookie';
 
 
 const SignUp = () => {

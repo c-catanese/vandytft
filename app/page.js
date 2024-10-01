@@ -1,8 +1,8 @@
 "use client"
  
-import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie';
-import Header from "@/Components/Header/Header";
+import { useEffect, useState } from 'react';
+import Header from "../Components/Header/Header";
 import Homepage from "../Components/Homepage/Homepage";
 
 export default function Home() {

@@ -1,9 +1,9 @@
 "use client";
 
-import UserInfo from '@/Components/UserInfo/UserInfo';
+import { useEffect, useState } from 'react';
 import Leaderboard from '../Leaderboard/MainLeaderboard/MainLeaderboard';
+import UserInfo from '../UserInfo/UserInfo';
 import styles from './Homepage.module.scss';
-import React, { useEffect, useState } from 'react';
 
 
 const Homepage = ({ user }) => {
