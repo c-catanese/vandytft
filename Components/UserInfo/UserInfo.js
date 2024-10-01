@@ -11,9 +11,14 @@ const UserInfo = ({user, place, header=false, cookie=false}) => {
         .join(' '); 
       }
 };
+  const rerouteToLolchess = () => {
+    if(user.username && user.tagline){   
+    window.location.href = `https://lolchess.gg/profile/na/${user.username}-${user.tagline}/set12`;
+    }
+  };
 
   return(
-    <div className={`${styles.user} ${header ? styles.lbHeading : ''} ${cookie ? styles.noPlace : ''}`}>
+    <div onClick={rerouteToLolchess} className={`${styles.user} ${header ? styles.lbHeading : ''} ${cookie ? styles.noPlace : ''}`}>
       <div className={`${styles.userSection} ${cookie ? styles.hidden : ''} ${styles.placeContainer}`}>
         <span className={styles.place }>{header ? 'Place' : place}</span>
         <div className={`${header ? styles.seperator : styles.smallSeperator}`}/>

@@ -13,6 +13,7 @@
   align-items: center;
   transition: transform .4s ease-out;
   transform: scaleX(1) scaleY(1);
+  cursor: pointer;
 }
 .user:hover{
   transition: transform 0.2s ease; 
@@ -25,7 +26,6 @@
 
 .place{
   margin-left: 15px;
-  cursor: default;
 }
 
 
@@ -33,12 +33,10 @@
   display: inline;
   white-space: nowrap;
   margin-left: 15px;
-  cursor: default;
 }
 
 .classOf{
   margin-left: 15px;
-  cursor: default;
 }
 
 .userSection{
