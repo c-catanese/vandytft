@@ -38,7 +38,7 @@ const filterAndSortPlayers = (rankKeyword) => {
   // Example calls
   const challPlayers = filterAndSortPlayers("CHALLENGER");
   const gmPlayers = filterAndSortPlayers("GRANDMASTER");
-  const masterPlayers = filterAndSortPlayers("MASTER");
+  const masterPlayers = [{username: 'fawlen', tagline: 'chris', tier: 'MASTER', division: 'I', lp: 0, class: 2022}]
   const diamondPlayers = filterAndSortPlayers("DIAMOND");
   const emeraldPlayers = filterAndSortPlayers("EMERALD");
   const platinumPlayers = filterAndSortPlayers("PLATINUM");
