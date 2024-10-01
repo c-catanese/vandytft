@@ -20,8 +20,8 @@ const Homepage = ({ user }) => {
           throw new Error('Network response was not ok');
         }
         const data = await res.json();
-        setUsers(data); 
         setLoading(false)
+        setUsers(data); 
       } catch (error) {
         console.error('Error fetching users:', error);
         setError(error.message); 
