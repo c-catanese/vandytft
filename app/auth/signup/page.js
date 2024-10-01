@@ -105,13 +105,12 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Prepare userData for creation
     const userData = {
-      username,      // Added username
-      password,      // Added password
-      email,         // Added email
-      classYear: gradClass, // Assuming gradClass is used for classYear
-      tagline: tagline.slice(1),       // Added tagline
+      username,     
+      password,     
+      email,        
+      classYear: gradClass,
+      tagline: tagline.slice(1),      
     };
   
     await createUser(userData);
@@ -132,7 +131,7 @@ const SignUp = () => {
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
             />
-            {invalidEmail && (<p className={styles.formError}>You must be using a Vanderbilt email.</p>)}
+            {invalidEmail && (<p className={styles.formError}>If you no longer have access to your Vanderbilt email, please email me - chrstnctns@gmail.com</p>)}
 
             <input 
               className={`${styles.input} ${styles.password}`} 
