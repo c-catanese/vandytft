@@ -1,9 +1,3 @@
-@font-face {
-  font-family: 'CutiveMomo';
-  src: url('../css/Fonts/CutiveMono-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 
 :root {  
   --max-width: 1100px;
