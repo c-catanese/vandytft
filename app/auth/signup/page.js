@@ -177,7 +177,7 @@ const SignUp = () => {
             <button className={styles.submitButton} type="submit" disabled={loading}>
               {loading ? 'Submitting...' : 'Submit'}
             </button>
-            {error && <p className={styles.formError}>{error}</p>}
+            {/* {error && <p className={styles.formError}>{error}</p>} */}
             {success && <p className={styles.successMessage}>User created successfully!</p>}
           </form>
         </div>
