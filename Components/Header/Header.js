@@ -1,8 +1,8 @@
 "use client";
 
 import React from 'react';
-import styles from './Header.module.scss'
-import DefaultButton from '../Buttons/DefaultButton/DefaultButton';
+import styles from './header.module.scss'
+import DefaultButton from '../buttons/defaultButton/defaultButton';
 import { useRouter } from 'next/navigation';
 
 const Header = ({ user }) => {

@@ -1,5 +1,5 @@
-import UserInfo from '../../UserInfo/UserInfo';
-import styles from './LeaderboardSection.module.scss';
+import UserInfo from '../../userInfo/userInfo';
+import styles from './leaderboardSection.module.scss';
 
 const LeaderboardSection = ({users, rank, countStart}) => {
   return(

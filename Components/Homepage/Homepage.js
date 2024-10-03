@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Leaderboard from '../Leaderboard/MainLeaderboard/MainLeaderboard';
-import UserInfo from '../UserInfo/UserInfo';
-import styles from './Homepage.module.scss';
+import Leaderboard from '../leaderboard/mainLeaderboard/mainLeaderboard';
+import UserInfo from '../userInfo/userInfo';
+import styles from './homepage.module.scss';
 
 
 const Homepage = ({ user }) => {
