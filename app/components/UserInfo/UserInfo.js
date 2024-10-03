@@ -1,4 +1,4 @@
-import styles from './userInfo.module.scss';
+import styles from './UserInfo.module.scss';
 
 const UserInfo = ({user, place, header=false, cookie=false}) => {
   console.log(user)
