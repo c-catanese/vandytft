@@ -13,7 +13,7 @@ const UserInfo = ({user, place, header=false, cookie=false}) => {
 };
   const rerouteToLolchess = () => {
     if(user.username && user.tagline){   
-    window.location.href = `https://lolchess.gg/profile/na/${user.username}-${user.tagline}/set12`;
+      window.location.href = `https://lolchess.gg/profile/na/${user.username}-${user.tagline}/set12`;
     }
   };
 

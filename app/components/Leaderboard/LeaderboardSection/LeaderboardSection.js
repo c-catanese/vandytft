@@ -6,7 +6,7 @@ const LeaderboardSection = ({users, rank, countStart}) => {
     <div className={styles.lbSectionContainer}>
       {users.length ? (
         <>
-        <h2 className={styles.rankDelineator}><a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a>{rank}<a className={`${styles.rankLogo} ${styles[`${rank}`]}`}></a></h2>
+        <h2 className={styles.rankDelineator}><span className={`${styles.rankLogo} ${styles[`${rank}`]}`}></span>{rank}<span className={`${styles.rankLogo} ${styles[`${rank}`]}`}></span></h2>
           <UserInfo header={true}/>
           {users.map((user, index) => (
             <UserInfo 

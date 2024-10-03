@@ -14,7 +14,7 @@ const Header = ({ user }) => {
   
   return(
     <header className={styles.headerContainer}>
-      <a className={styles.vanderbiltLogo} onClick={() => rerouteToPage('/')}></a>
+      <span className={styles.vanderbiltLogo} onClick={() => rerouteToPage('/')}></span>
       <div className={styles.accountNav}>
         {!user && (
           <>
