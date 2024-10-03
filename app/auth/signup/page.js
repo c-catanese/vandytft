@@ -73,7 +73,7 @@ const SignUp = () => {
       }
 
     } catch (error) {
-      setError(error.message);
+      setError("Failed to create user");
     } finally {
       setLoading(false);
     }
