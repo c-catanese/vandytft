@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".", // This specifies the base URL for imports
+    "paths": {
+      "@/*": ["./*"] // This defines that "@" refers to the root of the project
+    }
+  }
+}

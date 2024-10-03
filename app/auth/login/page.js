@@ -3,7 +3,7 @@
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import  Header  from '../../../components/header/header';
+import  Header  from '../../components/Header/Header';
 import styles from './login.module.scss';
 
 const Login = () => {

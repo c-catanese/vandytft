@@ -1,5 +1,5 @@
-import LeaderboardSection from '../leaderboardSection/leaderboardSection';
-import styles from './mainLeaderboard.module.scss';
+import LeaderboardSection from '../LeaderboardSection/LeaderboardSection';
+import styles from './MainLeaderboard.module.scss';
 
 const MainLeaderboard = ( { users } ) => {
   const rankOrder = [

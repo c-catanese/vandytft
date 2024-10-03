@@ -2,8 +2,8 @@
  
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
-import Header from "../components/header/header";
-import Homepage from "../components/homepage/homepage";
+import Header from "./components/Header/Header";
+import Homepage from "./components/homepage/homepage";
 
 export default function Home() {
   const [user, setUser] = useState(null)
