@@ -33,7 +33,7 @@ const UserInfo = ({user, place, header=false, cookie=false}) => {
         <div className={`${header ? styles.seperator : styles.smallSeperator}`}/>
       </div>
       <div className={styles.userSection}>
-        <span className={styles.classOf}>{header ? 'Year' : user.class}</span>
+        <span className={styles.classOf}>{header ? 'Class' : user.class}</span>
       </div>
     </div>
   )
