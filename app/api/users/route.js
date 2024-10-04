@@ -29,6 +29,7 @@ export async function GET(request) {
         headers: { 'Content-Type': 'application/json' },
       });
     }
+    await updateUserRanks();
 
     const users = await sql`SELECT username, id, class, tagline, tier, division, lp FROM users`;
     return new Response(JSON.stringify(users), {
@@ -134,37 +135,61 @@ async function updateUserRanks() {
     const apiKey = process.env.RIOT_KEY;
 
     for (const user of users) {
-      const { username, tagline, summonerID } = user;
+      const { username, tagline } = user;
 
-      // Fetch rank information from Riot API
-      const tftApiUrl = `https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/${summonerID}`;
-      const tftResults = await fetch(tftApiUrl, {
-        method: 'GET',
-        headers: {
-          'X-Riot-Token': apiKey,
-        },
-      });
 
-      if (!tftResults.ok) {
-        console.error(`Failed to fetch rank data for user ${username}`);
-        continue;
-      }
+      const riotApiUrl = `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${username}/${tagline}`;
 
+    const apiResponse = await fetch(riotApiUrl, {
+      method: 'GET',
+      headers: {
+        'X-Riot-Token': apiKey, 
+      },
+    });
+
+    if (!apiResponse.ok) {
+      throw new Error('Invalid username or tagline');
+    }
+
+    const { puuid } = await apiResponse.json();
+
+    const summonerApiUrl = `https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${puuid}`;
+    const summonerResults = await fetch(summonerApiUrl, {
+      method: 'GET',
+      headers: {
+        'X-Riot-Token': apiKey,
+      },
+    });
+
+    if (!summonerResults.ok) {
+      throw new Error('Could not retrieve rank information');
+    }
+    const summonerData = await summonerResults.json();
+    const summonerID = summonerData?.id
+
+
+    const tftApiUrl = `https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/${summonerID}`;
+    const tftResults = await fetch(tftApiUrl, {
+      method: 'GET',
+      headers: {
+        'X-Riot-Token': apiKey,
+      },
+    });
+
+    if (!tftResults.ok) {
+      throw new Error('Could not retrieve rank information');
+    }
+  
       const tftData = await tftResults.json();
-      if (!tftData || tftData.length === 0) {
-        console.error(`No TFT data found for user ${username}`);
-        continue;
-      }
-
-      const tier = tftData[tftData.length - 1].tier;
-      const division = tftData[tftData.length - 1].rank;
-      const lp = tftData[tftData.length - 1].leaguePoints;
+      const tier = tftData[tftData.length-1].tier
+      const division = tftData[tftData.length-1].rank
+      const lp = tftData[tftData.length-1].leaguePoints
 
       // Update the user's rank information in the database
       const result = await sql`
         UPDATE users
         SET tier = ${tier}, division = ${division}, lp = ${lp}
-        WHERE summonerID = ${summonerID}
+        WHERE username = ${username}
         RETURNING *;
       `;
 
