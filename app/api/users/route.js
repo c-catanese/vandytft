@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 const cron = require('node-cron');
 
-cron.schedule('0 0 * * *', async () => {
+cron.schedule('0 * * * *', async () => {
   console.log('Running a job to update ranks every day at midnight');
   
   try {
