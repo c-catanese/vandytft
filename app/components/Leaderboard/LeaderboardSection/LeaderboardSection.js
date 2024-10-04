@@ -19,9 +19,6 @@ const LeaderboardSection = ({users, rank, countStart}) => {
         </>
       ) : (
         <></>
-        // <div className={styles.noPlayers}>
-        //   <span className={styles.noPlayer}>No {rank} Players</span>
-        // </div>
       )}
   </div>
   )

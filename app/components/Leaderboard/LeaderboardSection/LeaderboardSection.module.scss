@@ -35,28 +35,6 @@
   background-repeat: no-repeat;
 }
 
-.noPlayers{
-  padding-left: 10px;
-  padding-right: 10px;
-  width: 700px;
-  height: 40px;
-  background-color: $black;
-  color: $white;
-  display: flex;
-  border-radius: 4px;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  align-items: center;
-  justify-content: center;
-  cursor: default;
-}
-
-.noPlayer{
-  width: fit-content;
-  text-align: center;
-  align-self: center;
-}
-
 .Challenger{
   background-image: url('/challenger.png')
 }

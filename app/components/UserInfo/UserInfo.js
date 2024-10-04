@@ -28,7 +28,8 @@ const UserInfo = ({user, place, header=false, cookie=false}) => {
         <div className={`${header ? styles.seperator : styles.smallSeperator}`}/>
       </div>
       <div className={styles.userSection}>
-        <span className={styles.rank}>{header ? 'Rank' : titleCase(user.tier) + ' ' + user.lp + ' lp'}</span>
+        <span className={styles.rank}>{header ? 'Rank' : (user.tier === 'MASTER' || user.tier === 'GRANDMASTER' || user.tier === 'CHALLENGER' ? titleCase(user.tier) + ' ' + user.lp + ' lp' : titleCase(user.tier) + ' ' + user.division + ' ' + user.lp + ' lp')}
+        </span>
         <div className={`${header ? styles.seperator : styles.smallSeperator}`}/>
       </div>
       <div className={styles.userSection}>
