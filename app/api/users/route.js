@@ -7,14 +7,14 @@ export async function GET(request) {
     const email = searchParams.get('email'); 
 
     if (email) {
-      const user = await sql`SELECT * FROM users WHERE email = ${email}`;
+      const user = await sql`SELECT username, id, class, tagline, tier, division, lp FROM users WHERE email = ${email}`;
       return new Response(JSON.stringify(user), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
 
-    const users = await sql`SELECT * FROM users`;
+    const users = await sql`SELECT username, id, class, tagline, tier, division, lp FROM users`;
     return new Response(JSON.stringify(users), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
