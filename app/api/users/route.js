@@ -1,6 +1,22 @@
 import sql from "../config/postgresConfig"
 import bcrypt from 'bcrypt';
 
+const cron = require('node-cron');
+
+cron.schedule('0 0 * * *', async () => {
+  console.log('Running a job to update ranks every day at midnight');
+  
+  try {
+    // Function to update the user ranks
+    await updateUserRanks();
+  } catch (error) {
+    console.error('Error while updating user ranks:', error);
+  }
+});
+
+
+
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -104,5 +120,59 @@ export async function POST(request) {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
+  }
+}
+
+
+
+
+async function updateUserRanks() {
+  try {
+    // Get all users from the database
+    const users = await sql`SELECT * FROM users`;
+
+    const apiKey = process.env.RIOT_KEY;
+
+    for (const user of users) {
+      const { username, tagline, summonerID } = user;
+
+      // Fetch rank information from Riot API
+      const tftApiUrl = `https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/${summonerID}`;
+      const tftResults = await fetch(tftApiUrl, {
+        method: 'GET',
+        headers: {
+          'X-Riot-Token': apiKey,
+        },
+      });
+
+      if (!tftResults.ok) {
+        console.error(`Failed to fetch rank data for user ${username}`);
+        continue;
+      }
+
+      const tftData = await tftResults.json();
+      if (!tftData || tftData.length === 0) {
+        console.error(`No TFT data found for user ${username}`);
+        continue;
+      }
+
+      const tier = tftData[tftData.length - 1].tier;
+      const division = tftData[tftData.length - 1].rank;
+      const lp = tftData[tftData.length - 1].leaguePoints;
+
+      // Update the user's rank information in the database
+      const result = await sql`
+        UPDATE users
+        SET tier = ${tier}, division = ${division}, lp = ${lp}
+        WHERE summonerID = ${summonerID}
+        RETURNING *;
+      `;
+
+      console.log(`Updated rank for user ${username}: Tier ${tier}, Division ${division}, LP ${lp}`);
+    }
+
+    console.log('Rank updates completed successfully.');
+  } catch (error) {
+    console.error('Error updating user ranks:', error);
   }
 }
