@@ -49,7 +49,7 @@ const filterAndSortPlayers = (rankKeyword) => {
   const unrankedPlayers = filterAndSortPlayers("UNRANKED");
 
   return(
-    <div className={styles.leadeboardContainer}>
+    <div className={styles.leaderboardContainer}>
         <LeaderboardSection users={challPlayers} rank={'Challenger'} countStart={1}/>
         <LeaderboardSection users={gmPlayers} rank={'Grandmaster'} countStart={challPlayers.length + 1}/>
         <LeaderboardSection users={masterPlayers} rank={'Master'} countStart={challPlayers.length + gmPlayers.length + 1}/>
