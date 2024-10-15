@@ -28,7 +28,6 @@ export async function GET(request) {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-    await updateUserRanks();
 
     const users = await sql`SELECT username, id, class, tagline, tier, division, lp FROM users`;
     return new Response(JSON.stringify(users), {
