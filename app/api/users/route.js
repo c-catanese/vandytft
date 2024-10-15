@@ -7,7 +7,6 @@ cron.schedule('0 * * * *', async () => {
   console.log('Running a job to update ranks every day at midnight');
   
   try {
-    // Function to update the user ranks
     await updateUserRanks();
   } catch (error) {
     console.error('Error while updating user ranks:', error);
@@ -100,11 +99,17 @@ export async function POST(request) {
     }
 
     const tftData = await tftResults.json();
-    console.log(tftData)
-    const tier = tftData[tftData.length-1].tier
-    const division = tftData[tftData.length-1].rank
-    const lp = tftData[tftData.length-1].leaguePoints
 
+    let tier = '';
+    let division = '';
+    let lp = '';
+    for(let i = 0; i < tftData.length; i++) {
+      if(tftData[i].queueType === 'RANKED_TFT') {
+        tier = tftData[i].tier
+        division = tftData[i].rank
+        lp = tftData[i].leaguePoints
+      }
+    }
     const result = await sql`
       INSERT INTO users (username, password, email, class, tagline, tier, division, lp)
       VALUES (${username}, ${hashedPassword}, ${email}, ${classYear}, ${tagline}, ${tier}, ${division}, ${lp})
@@ -179,13 +184,20 @@ async function updateUserRanks() {
     if (!tftResults.ok) {
       throw new Error('Could not retrieve rank information');
     }
-  
-      const tftData = await tftResults.json();
-      const tier = tftData[tftData.length-1].tier
-      const division = tftData[tftData.length-1].rank
-      const lp = tftData[tftData.length-1].leaguePoints
 
-      // Update the user's rank information in the database
+    const tftData = await tftResults.json();
+  
+    let tier = '';
+    let division = '';
+    let lp = '';
+    for(let i = 0; i < tftData.length; i++) {
+      if(tftData[i].queueType === 'RANKED_TFT') {
+        tier = tftData[i].tier
+        division = tftData[i].rank
+        lp = tftData[i].leaguePoints
+      }
+    }
+
       const result = await sql`
         UPDATE users
         SET tier = ${tier}, division = ${division}, lp = ${lp}
@@ -193,7 +205,7 @@ async function updateUserRanks() {
         RETURNING *;
       `;
 
-      console.log(`Updated rank for user ${username}: Tier ${tier}, Division ${division}, LP ${lp}`);
+      // console.log(`Updated rank for user ${username}: Tier ${tier}, Division ${division}, LP ${lp}`);
     }
 
     console.log('Rank updates completed successfully.');
