@@ -20,7 +20,7 @@ export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const email = searchParams.get('email'); 
-    updateUserRanks()
+    await updateUserRanks()
     if (email) {
       const user = await sql`SELECT username, id, class, tagline, tier, division, lp FROM users WHERE email = ${email}`;
       return new Response(JSON.stringify(user), {
