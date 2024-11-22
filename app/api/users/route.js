@@ -150,7 +150,6 @@ async function updateUserRanks() {
         'X-Riot-Token': apiKey, 
       },
     });
-
     if (!apiResponse.ok) {
       throw new Error('Invalid username or tagline');
     }
@@ -164,7 +163,6 @@ async function updateUserRanks() {
         'X-Riot-Token': apiKey,
       },
     });
-
     if (!summonerResults.ok) {
       throw new Error('Could not retrieve rank information');
     }
@@ -186,9 +184,9 @@ async function updateUserRanks() {
 
     const tftData = await tftResults.json();
   
-    let tier = '';
+    let tier = 'UNRANKED';
     let division = '';
-    let lp = '';
+    let lp = 0;
     for(let i = 0; i < tftData.length; i++) {
       if(tftData[i].queueType === 'RANKED_TFT') {
         tier = tftData[i].tier
