@@ -1,7 +1,6 @@
 import styles from './UserInfo.module.scss';
 
 const UserInfo = ({user, place, header=false, cookie=false}) => {
-  console.log(user)
   const titleCase = (str) => {
     if(str?.length){
     return str
