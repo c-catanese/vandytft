@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
 import styles from './login.module.scss';
+import {AppProvider} from "../../../app/contexts/UserContext"
 
 const Login = () => {
   const [loginSlideClass, setLoginSlideClass] = useState('slide-in-left');
@@ -73,7 +74,7 @@ const Login = () => {
   };
 
   return(
-    <>
+    <AppProvider>
       <Header/>
       <div className={styles.loginContainer}>
         <div className={`${styles.loginColumn} ${styles[loginSlideClass]}`}>
@@ -92,7 +93,7 @@ const Login = () => {
           <h2 className={styles.title}>Vanderbilt TFT</h2>
         </div>
       </div>
-    </>
+    </AppProvider>
   )
 }
 

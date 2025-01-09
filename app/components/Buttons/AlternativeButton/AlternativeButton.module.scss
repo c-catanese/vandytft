@@ -1,0 +1,13 @@
+@import '../../../css/colors.scss';
+
+.buttonDefault{
+  height: 50px;
+  width: 100px;
+  border-radius: 10px;
+  font-weight: 540;
+  font-size: 14pt;
+  background-color: $black;
+  color: $white;
+  border-color: $white;
+  cursor: pointer;
+}

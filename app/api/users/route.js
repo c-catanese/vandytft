@@ -1,26 +1,10 @@
 import sql from "../config/postgresConfig"
 import bcrypt from 'bcrypt';
 
-const cron = require('node-cron');
-
-cron.schedule('0 * * * *', async () => {
-  console.log('Running a job to update ranks every day at midnight');
-  
-  try {
-    await updateUserRanks();
-  } catch (error) {
-    console.error('Error while updating user ranks:', error);
-  }
-});
-
-
-
-
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const email = searchParams.get('email'); 
-    await updateUserRanks()
     if (email) {
       const user = await sql`SELECT username, id, class, tagline, tier, division, lp FROM users WHERE email = ${email}`;
       return new Response(JSON.stringify(user), {

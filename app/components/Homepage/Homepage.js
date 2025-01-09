@@ -1,40 +1,22 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Leaderboard from '../Leaderboard/MainLeaderboard/MainLeaderboard';
 import UserInfo from '../UserInfo/UserInfo';
 import styles from './Homepage.module.scss';
+import { useAppContext } from '../../contexts/UserContext'
 
 
 const Homepage = ({ user }) => {
-  const [users, setUsers] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const {users, loading, fetchUsers} = useAppContext()
 
   useEffect(() => {
-    setLoading(true)
-    async function fetchUsers() {
-      try {
-        const res = await fetch('/api/users'); 
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await res.json();
-        setLoading(false)
-        setUsers(data); 
-      } catch (error) {
-        console.error('Error fetching users:', error);
-        setError(error.message); 
-        setLoading(false)
-      }
-    }
     fetchUsers();
   }, []);
 
-
   return(
     <div className={styles.homepageContainer}>
-      {user && (
+      {user && !loading && (
         <div className={styles.column} >
           <h1 className={styles.title}>Your Profile</h1>
           <UserInfo user={user} cookie={true}/>
@@ -45,7 +27,7 @@ const Homepage = ({ user }) => {
           Loading
         </h1>
       )}
-      <Leaderboard users={users}/>
+      {!loading && <Leaderboard users={users}/>}
     </div>
   )
 }

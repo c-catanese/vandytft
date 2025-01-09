@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
 import styles from './signup.module.scss';
+import {AppProvider} from "../../../app/contexts/UserContext"
 
 
 const SignUp = () => {
@@ -118,7 +119,7 @@ const SignUp = () => {
   
   
   return (
-    <>
+    <AppProvider>
       <Header />
       <div className={styles.loginContainer}>
         <div className={`${styles.loginColumn} ${styles[loginSlideClass]}`}>
@@ -186,7 +187,7 @@ const SignUp = () => {
           <h2 className={styles.title}>Vanderbilt TFT</h2>
         </div>
       </div>
-    </>
+  </AppProvider>
   );
 }
 

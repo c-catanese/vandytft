@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import Header from './components/Header/Header';
 import Homepage from "./components/Homepage/Homepage";
+import {AppProvider} from "../app/contexts/UserContext"
 
 export default function Home() {
   const [user, setUser] = useState(null)
@@ -36,9 +37,9 @@ export default function Home() {
 
 
   return (
-    <>
+    <AppProvider>
       <Header user={user}/>
       <Homepage user={user}/>
-    </>
+    </AppProvider>
   );
 }

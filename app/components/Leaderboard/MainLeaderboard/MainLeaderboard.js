@@ -1,7 +1,22 @@
+import { useEffect, useState, useCallback } from 'react';
 import LeaderboardSection from '../LeaderboardSection/LeaderboardSection';
 import styles from './MainLeaderboard.module.scss';
+import { useAppContext } from '../../../contexts/UserContext'
 
 const MainLeaderboard = ( { users } ) => {
+  const { loading } = useAppContext()
+  const [challPlayers, setChallPlayers] = useState([]);
+  const [gmPlayers, setGmPlayers] = useState([]);
+  const [masterPlayers, setMasterPlayers] = useState([]);
+  const [diamondPlayers, setDiamondPlayers] = useState([]);
+  const [emeraldPlayers, setEmeraldPlayers] = useState([]);
+  const [platinumPlayers, setPlatinumPlayers] = useState([]);
+  const [goldPlayers, setGoldPlayers] = useState([]);
+  const [silverPlayers, setSilverPlayers] = useState([]);
+  const [bronzePlayers, setBronzePlayers] = useState([]);
+  const [ironPlayers, setIronPlayers] = useState([]);
+  const [unrankedPlayers, setUnrankedPlayers] = useState([]);
+
   const rankOrder = [
     "CHALLENGER", "GRANDMASTER", "MASTER", 
     "DIAMOND I", "DIAMOND II", "DIAMOND III", "DIAMOND IV",
@@ -11,42 +26,51 @@ const MainLeaderboard = ( { users } ) => {
     "SILVER I", "SILVER II", "SILVER III", "SILVER IV",
     "BRONZE I", "BRONZE II", "BRONZE III", "BRONZE IV",
     "IRON I", "IRON II", "IRON III", "IRON IV"
-];
+  ];
+  
 
-const filterAndSortPlayers = (rankKeyword) => {
-    return users
+  const filterAndSortPlayers = useCallback(
+    (rankKeyword) => {
+      return users
         .filter(user => {
-            // Construct the rank string based on tier and division, convert to uppercase
-            const userRank = user.tier.toUpperCase() + (user.division ? ` ${user.division.toUpperCase()}` : "");
-            return userRank.includes(rankKeyword.toUpperCase());
+          // Construct the rank string based on tier and division, convert to uppercase
+          const userRank = user.tier.toUpperCase() + (user.division ? ` ${user.division.toUpperCase()}` : "");
+          return userRank.includes(rankKeyword.toUpperCase());
         })
         .sort((a, b) => {
-            // Construct rank strings for comparison
-            const rankA = a.tier.toUpperCase() + (a.division ? ` ${a.division.toUpperCase()}` : "");
-            const rankB = b.tier.toUpperCase() + (b.division ? ` ${b.division.toUpperCase()}` : "");
-            const rankIndexA = rankOrder.indexOf(rankA);
-            const rankIndexB = rankOrder.indexOf(rankB);
-            
-            // Sort by rank order first, then by LP
-            if (rankIndexA !== rankIndexB) {
-                return rankIndexA - rankIndexB; // Sort by rank order
-            }
-            return b.lp - a.lp; // Sort by LP in descending order if ranks are the same
-        });
-};
+          // Construct rank strings for comparison
+          const rankA = a.tier.toUpperCase() + (a.division ? ` ${a.division.toUpperCase()}` : "");
+          const rankB = b.tier.toUpperCase() + (b.division ? ` ${b.division.toUpperCase()}` : "");
+          const rankIndexA = rankOrder.indexOf(rankA);
+          const rankIndexB = rankOrder.indexOf(rankB);
 
-  // Example calls
-  const challPlayers = filterAndSortPlayers("CHALLENGER");
-  const gmPlayers = filterAndSortPlayers("GRANDMASTER");
-  const masterPlayers = filterAndSortPlayers("MASTER")
-  const diamondPlayers = filterAndSortPlayers("DIAMOND");
-  const emeraldPlayers = filterAndSortPlayers("EMERALD");
-  const platinumPlayers = filterAndSortPlayers("PLATINUM");
-  const goldPlayers = filterAndSortPlayers("GOLD");
-  const silverPlayers = filterAndSortPlayers("SILVER");
-  const bronzePlayers = filterAndSortPlayers("BRONZE");
-  const ironPlayers = filterAndSortPlayers("IRON");
-  const unrankedPlayers = filterAndSortPlayers("UNRANKED");
+          // Sort by rank order first, then by LP
+          if (rankIndexA !== rankIndexB) {
+            return rankIndexA - rankIndexB; // Sort by rank order
+          }
+          return b.lp - a.lp; // Sort by LP in descending order if ranks are the same
+        });
+    },
+    []
+  );
+
+
+  useEffect(() => {
+    if (!loading) {
+      setChallPlayers(filterAndSortPlayers("CHALLENGER"));
+      setGmPlayers(filterAndSortPlayers("GRANDMASTER"));
+      setMasterPlayers(filterAndSortPlayers("MASTER"));
+      setDiamondPlayers(filterAndSortPlayers("DIAMOND"));
+      setEmeraldPlayers(filterAndSortPlayers("EMERALD"));
+      setPlatinumPlayers(filterAndSortPlayers("PLATINUM"));
+      setGoldPlayers(filterAndSortPlayers("GOLD"));
+      setSilverPlayers(filterAndSortPlayers("SILVER"));
+      setBronzePlayers(filterAndSortPlayers("BRONZE"));
+      setIronPlayers(filterAndSortPlayers("IRON"));
+      setUnrankedPlayers(filterAndSortPlayers("UNRANKED"));
+    }
+}, [filterAndSortPlayers, loading, users]);
+
 
   return(
     <div className={styles.leaderboardContainer}>

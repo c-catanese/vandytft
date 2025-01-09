@@ -2,6 +2,7 @@ import UserInfo from '../../UserInfo/UserInfo';
 import styles from './LeaderboardSection.module.scss';
 
 const LeaderboardSection = ({users, rank, countStart}) => {
+  
   return(
     <div className={styles.lbSectionContainer}>
       {users.length ? (
