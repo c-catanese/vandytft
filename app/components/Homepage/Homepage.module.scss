@@ -10,6 +10,7 @@
 }
 
 .title{
+  background-color: transparent;
   color: $black;
   font-size: 30pt;
   font-weight: 400;
@@ -22,10 +23,12 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
+  background-color: transparent;
 }
 
 .loading{
   color: $black;
+  background-color: transparent;
   font-size: 30pt;
   font-weight: 400;
   font-family: copperplate;

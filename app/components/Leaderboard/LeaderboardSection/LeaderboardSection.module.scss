@@ -5,12 +5,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: transparent;
 }
 .lbSectionContainer{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: transparent;
 }
 
 .rankDelineator{
@@ -25,6 +27,7 @@
   justify-content: center;
   font-family: copperplate;
   margin-bottom: 10px;
+
 }
 
 .rankLogo{
@@ -33,6 +36,7 @@
   margin: 0px 30px;
   background-size: contain;
   background-repeat: no-repeat;
+  background-color: transparent;
 }
 
 .Challenger{
