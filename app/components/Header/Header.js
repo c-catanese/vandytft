@@ -3,25 +3,29 @@
 import React from 'react';
 import styles from './Header.module.scss'
 import DefaultButton from '../Buttons/DefaultButton/DefaultButton';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAppContext } from '../../contexts/UserContext'
 import Cookies from 'js-cookie';
 
 
-const Header = ({ user }) => {
+const Header = () => {
   const router = useRouter();
   const rerouteToPage = (page) => {
     router.push(page);
   };
 
-  const { updateRanks } = useAppContext()
+  const { updateRanks, user, setUser } = useAppContext()
+  const isRoot = usePathname() === '/'
+  const buttonContainer = user 
+    ? { width: isRoot ? '170px' : '255px' } 
+    : { width: isRoot ? '255px' : '170px' }
 
 
   return(
     <header className={styles.headerContainer}>
       <span className={styles.vanderbiltLogo} onClick={() => rerouteToPage('/')}></span>
-      <div className={styles.accountNav} style={user ? { width: '220px' } : {}}      >
-          <DefaultButton text={'Update'} func={ updateRanks }/>
+      <div className={styles.accountNav} style={buttonContainer}      >
+         {isRoot && (<DefaultButton text={'Update'} func={ updateRanks }/>)}
         {!user && (
           <>
             <DefaultButton text={'Login'} func={() => rerouteToPage('/auth/login')}/>
@@ -30,7 +34,10 @@ const Header = ({ user }) => {
         )}
         {user && (
           <>
-          <DefaultButton text={'Log Out'} func={() => {Cookies.remove('userEmail', { secure: false,sameSite: 'strict', })}}/>
+          <DefaultButton text={'Log Out'} func={() => {
+            setUser(null)
+            Cookies.remove('userEmail', { secure: false,sameSite: 'strict', })}
+          }/>
           </>
         )}
       </div>

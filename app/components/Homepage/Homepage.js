@@ -5,12 +5,17 @@ import Leaderboard from '../Leaderboard/MainLeaderboard/MainLeaderboard';
 import UserInfo from '../UserInfo/UserInfo';
 import styles from './Homepage.module.scss';
 import { useAppContext } from '../../contexts/UserContext'
+import Cookies from 'js-cookie';
 
 
-const Homepage = ({ user }) => {
-  const {users, loading, fetchUsers} = useAppContext()
+const Homepage = () => {
+  const {users, loading, fetchUsers, user, fetchUserData} = useAppContext()
+  const email = Cookies.get('userEmail');
 
   useEffect(() => {
+    if(email){
+      fetchUserData(email);
+    }
     fetchUsers();
   }, []);
 

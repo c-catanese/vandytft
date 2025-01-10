@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useCallback } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 
 const AppContext = createContext();
 
@@ -6,6 +6,7 @@ export const AppProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [user, setUser] = useState(null)
 
   const updateRanks = async () => {
     try {
@@ -32,7 +33,6 @@ export const AppProvider = ({ children }) => {
       }
       const data = await res.json();
       setLoading(false);
-
       setUsers(data);
     } catch (error) {
       setError(error.message);
@@ -40,8 +40,29 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const fetchUserData = async (email) => {
+    try {
+      const response = await fetch(`/api/users?email=${encodeURIComponent(email)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user');
+      }
+      const data = await response.json();
+      setUser(data[0]);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+
+
   return (
-    <AppContext.Provider value={{ users, loading, error, setLoading, setError, setUsers, updateRanks, fetchUsers }}>
+    <AppContext.Provider value={{ users, user, loading, error, setLoading, setError, setUsers, updateRanks, fetchUsers, fetchUserData, setUser }}>
       {children}
     </AppContext.Provider>
   );
