@@ -67,6 +67,7 @@
 
 .loginTitle{
   font-size: 24pt;
+  background-color: transparent;
 }
 
 .titleColumn{
@@ -76,6 +77,8 @@
   justify-content: center;
   font-size: 30pt;
   transition: transform .75s ease;
+  background-color: transparent;
+
 }
 
 .input{
@@ -111,6 +114,8 @@
 
 .usernameContainer{
   margin: 20px 0px 0px 0px;
+  background-color: transparent;
+
 }
 
 .input.username{
@@ -142,6 +147,7 @@
 }
 
 .vanderbiltStar{
+  background-color: transparent;
   width: 100px;
   height: 100px;
   background-image: url('/vanderbiltstar.png');
@@ -157,6 +163,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
 }
 
 .formError{
@@ -164,9 +171,11 @@
   margin-top: 10px;
   text-shadow: 0 0 1px white;
   font-weight: bolder;
+  background-color: transparent;
 }
 
 .submitButton{
+  
   color: $black;
   border-radius: 10px;
   width: 100px;
@@ -178,6 +187,9 @@
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); 
 }
 
+  .title{
+    background-color: transparent;
+  }
 
 @media (max-width: 1080px) {
   .loginContainer{
