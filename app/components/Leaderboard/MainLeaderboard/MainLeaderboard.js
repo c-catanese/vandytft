@@ -28,22 +28,32 @@ const MainLeaderboard = ( { users } ) => {
     "IRON I", "IRON II", "IRON III", "IRON IV"
   ];
   
-
   const filterAndSortPlayers = useCallback(
     (rankKeyword) => {
       return users
         .filter(user => {
-          // Construct the rank string based on tier and division, convert to uppercase
+          // Match exactly the rank tier and division
           const userRank = user.tier.toUpperCase() + (user.division ? ` ${user.division.toUpperCase()}` : "");
-          return userRank.includes(rankKeyword.toUpperCase());
+          const keywordRank = rankKeyword.toUpperCase();
+          
+          // Exact match with optional division
+          return userRank === keywordRank || user.tier.toUpperCase() === keywordRank;
         })
         .sort((a, b) => {
           // Construct rank strings for comparison
           const rankA = a.tier.toUpperCase() + (a.division ? ` ${a.division.toUpperCase()}` : "");
           const rankB = b.tier.toUpperCase() + (b.division ? ` ${b.division.toUpperCase()}` : "");
-          const rankIndexA = rankOrder.indexOf(rankA);
-          const rankIndexB = rankOrder.indexOf(rankB);
-
+  
+          // Find indexes in rankOrder
+          const rankIndexA = rankOrder.findIndex(rank => rank === rankA);
+          const rankIndexB = rankOrder.findIndex(rank => rank === rankB);
+  
+          // Handle cases where rank is not found in rankOrder
+          if (rankIndexA === -1 || rankIndexB === -1) {
+            console.error(`Rank not found in rankOrder: ${rankA} or ${rankB}`);
+            return 0;
+          }
+  
           // Sort by rank order first, then by LP
           if (rankIndexA !== rankIndexB) {
             return rankIndexA - rankIndexB; // Sort by rank order
@@ -53,7 +63,6 @@ const MainLeaderboard = ( { users } ) => {
     },
     []
   );
-
 
   useEffect(() => {
     if (!loading) {
@@ -70,7 +79,6 @@ const MainLeaderboard = ( { users } ) => {
       setUnrankedPlayers(filterAndSortPlayers("UNRANKED"));
     }
 }, [filterAndSortPlayers, loading, users]);
-
 
   return(
     <div className={styles.leaderboardContainer}>

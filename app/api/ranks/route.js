@@ -34,7 +34,6 @@ async function updateUserRanks() {
   try {
     // Get all users from the database
     const users = await sql`SELECT * FROM users`;
-
     const apiKey = process.env.RIOT_KEY;
 
     for (const user of users) {
