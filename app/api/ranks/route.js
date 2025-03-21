@@ -49,6 +49,7 @@ async function updateUserRanks() {
         },
       });
       if (!apiResponse.ok) {
+        // console.log(username)
         throw new Error('Invalid username or tagline');
       }
 
