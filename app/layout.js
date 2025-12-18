@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,15 +16,19 @@ export default function RootLayout({ children }) {
       <link rel="icon" href="/vandytft.svg"/>
       <meta property="og:title" content="Vanderbilt TFT" />
       <meta property="og:description" content="Leaderboard for Vanderbilt TFT Players" />
-      <meta property="og:image" content="/vandytft.svg" /> 
-      <meta property="og:url" content="https://vandytft.com" /> 
+      <meta property="og:image" content="/vandytft.svg" />
+      <meta property="og:url" content="https://vandytft.com" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content="Vanderbilt TFT" />
       <meta name="twitter:description" content="Leaderboard for Vanderbilt TFT Players" />
-      <meta name="twitter:image" content="/vandytft.svg" /> 
+      <meta name="twitter:image" content="/vandytft.svg" />
         <link rel="icon" href="/vandytft.svg"/>
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
+      </body>
     </html>
   );
 }

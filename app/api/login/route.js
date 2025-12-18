@@ -5,8 +5,29 @@ export async function POST(request) {
   const body = await request.json();
   const { password, email } = body;
 
+  // Validate required fields
   if (!email || !password) {
-    throw new Error('Email and password are required');
+    return new Response(JSON.stringify({ message: 'Email and password are required' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return new Response(JSON.stringify({ message: 'Invalid email format' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  // Validate password length
+  if (password.length < 8) {
+    return new Response(JSON.stringify({ message: 'Password must be at least 8 characters' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   try {

@@ -2,7 +2,7 @@
 
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Header from '../../components/Header/Header';
 import styles from './signup.module.scss';
 import {AppProvider} from "../../../app/contexts/UserContext"
@@ -65,12 +65,12 @@ const SignUp = () => {
       const result = await response.json();
       setSuccess(result);
       if (response.ok) {
-        Cookies.set('userEmail', data.email, {
+        Cookies.set('userEmail', email, {
           expires: 30,
-          secure: process.env.NODE_ENV === 'production', 
+          secure: process.env.NODE_ENV === 'production',
           sameSite: 'strict',
         });
-        router.push('/'); 
+        router.push('/');
       }
 
     } catch (error) {
@@ -79,18 +79,6 @@ const SignUp = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (!router.isReady) return;
-    const handleRouteChangeComplete = () => {
-      setLoginSlideClass('slide-in-left'); 
-      setTitleSlideClass('slide-in-right'); 
-    };
-    router.events.on('routeChangeComplete', handleRouteChangeComplete);
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChangeComplete);
-    };
-  }, [router.events, router.isReady]);
 
   const handleTaglineChange = (value) => {
     if (value === '') {

@@ -8,7 +8,7 @@ const sql = postgres({
   user: PGUSER,
   password: PGPASSWORD,
   port: 5432,
-  ssl: { rejectUnauthorized: false },
+  ssl: 'require',
   connection: {
     application_name: ENDPOINT_ID,
   },

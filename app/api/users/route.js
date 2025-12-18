@@ -1,19 +1,20 @@
 import sql from "../config/postgresConfig"
 import bcrypt from 'bcrypt';
+import { getAccountByRiotId, getLeagueByPuuid } from '../lib/riotApiClient';
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
-    const email = searchParams.get('email'); 
+    const email = searchParams.get('email');
     if (email) {
-      const user = await sql`SELECT username, id, class, tagline, tier, division, lp FROM users WHERE email = ${email}`;
+      const user = await sql`SELECT username, id, class, tagline, tier, division, lp, puuid FROM users WHERE email = ${email}`;
       return new Response(JSON.stringify(user), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
 
-    const users = await sql`SELECT username, id, class, tagline, tier, division, lp FROM users`;
+    const users = await sql`SELECT username, id, class, tagline, tier, division, lp, puuid FROM users`;
     return new Response(JSON.stringify(users), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -34,68 +35,108 @@ export async function POST(request) {
     const body = await request.json();
     const { username, password, email, classYear, tagline } = body;
 
-    const saltRounds = 10;  
+    // Validate required fields
+    if (!username || !password || !email || !classYear || !tagline) {
+      return new Response(JSON.stringify({ error: 'All fields are required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Validate email format and domain
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return new Response(JSON.stringify({ error: 'Invalid email format' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (!email.endsWith('@vanderbilt.edu')) {
+      return new Response(JSON.stringify({ error: 'Email must be a Vanderbilt email address' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Validate password length
+    if (password.length < 8) {
+      return new Response(JSON.stringify({ error: 'Password must be at least 8 characters' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Validate username
+    if (username.trim().length < 3 || username.length > 50) {
+      return new Response(JSON.stringify({ error: 'Username must be between 3 and 50 characters' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Validate tagline
+    if (tagline.trim().length === 0 || tagline.length > 10) {
+      return new Response(JSON.stringify({ error: 'Invalid tagline' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Validate class year
+    const currentYear = new Date().getFullYear();
+    const classYearNum = parseInt(classYear, 10);
+    if (isNaN(classYearNum) || classYearNum < 1900 || classYearNum > currentYear + 10) {
+      return new Response(JSON.stringify({ error: 'Invalid class year' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-
-    const apiKey =  process.env.RIOT_KEY; 
-    const riotApiUrl = `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${username}/${tagline}`;
-
-    const apiResponse = await fetch(riotApiUrl, {
-      method: 'GET',
-      headers: {
-        'X-Riot-Token': apiKey, 
-      },
-    });
-
-    if (!apiResponse.ok) {
-      throw new Error('Invalid username or tagline');
+    // Step 1: Get PUUID from username#tagline
+    const accountResult = await getAccountByRiotId(username, tagline);
+    if (!accountResult.success) {
+      return new Response(JSON.stringify({
+        error: accountResult.statusCode === 404
+          ? 'Invalid username or tagline'
+          : 'Failed to verify Riot account'
+      }), {
+        status: accountResult.statusCode || 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
-    const { puuid } = await apiResponse.json();
+    const { puuid } = accountResult.data;
 
-    const summonerApiUrl = `https://na1.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${puuid}`;
-    const summonerResults = await fetch(summonerApiUrl, {
-      method: 'GET',
-      headers: {
-        'X-Riot-Token': apiKey,
-      },
-    });
-
-    if (!summonerResults.ok) {
-      throw new Error('Could not retrieve rank information');
-    }
-    const summonerData = await summonerResults.json();
-    const summonerID = summonerData?.id
-
-
-    const tftApiUrl = `https://na1.api.riotgames.com/tft/league/v1/entries/by-summoner/${summonerID}`;
-    const tftResults = await fetch(tftApiUrl, {
-      method: 'GET',
-      headers: {
-        'X-Riot-Token': apiKey,
-      },
-    });
-
-    if (!tftResults.ok) {
-      throw new Error('Could not retrieve rank information');
+    // Step 2: Get rank data directly from PUUID (no summoner ID needed!)
+    const leagueResult = await getLeagueByPuuid(puuid);
+    if (!leagueResult.success) {
+      return new Response(JSON.stringify({
+        error: 'Could not retrieve rank information'
+      }), {
+        status: leagueResult.statusCode || 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
-    const tftData = await tftResults.json();
-
+    // Extract RANKED_TFT data from the array
+    const tftData = leagueResult.data;
     let tier = '';
     let division = '';
     let lp = '';
-    for(let i = 0; i < tftData.length; i++) {
-      if(tftData[i].queueType === 'RANKED_TFT') {
-        tier = tftData[i].tier
-        division = tftData[i].rank
-        lp = tftData[i].leaguePoints
-      }
+
+    const rankedEntry = tftData.find(entry => entry.queueType === 'RANKED_TFT');
+    if (rankedEntry) {
+      tier = rankedEntry.tier;
+      division = rankedEntry.rank;
+      lp = rankedEntry.leaguePoints;
     }
     const result = await sql`
-      INSERT INTO users (username, password, email, class, tagline, tier, division, lp)
-      VALUES (${username}, ${hashedPassword}, ${email}, ${classYear}, ${tagline}, ${tier}, ${division}, ${lp})
+      INSERT INTO users (username, password, email, class, tagline, tier, division, lp, puuid)
+      VALUES (${username}, ${hashedPassword}, ${email}, ${classYear}, ${tagline}, ${tier}, ${division}, ${lp}, ${puuid})
       RETURNING *
     `;
 

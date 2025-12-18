@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 
 
 const Homepage = () => {
-  const {users, loading, fetchUsers, user, fetchUserData} = useAppContext()
+  const {users, loading, fetchUsers, user, fetchUserData} = useAppContext();
   const email = Cookies.get('userEmail');
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Homepage = () => {
       fetchUserData(email);
     }
     fetchUsers();
-  }, []);
+  }, [email, fetchUsers, fetchUserData]);
 
   return(
     <div className={styles.homepageContainer}>

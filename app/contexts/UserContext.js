@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useCallback } from 'react';
 
 const AppContext = createContext();
 
@@ -6,26 +6,10 @@ export const AppProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
 
-  const updateRanks = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch('/api/ranks');
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await res.json();
-      setUsers(data);
-      setLoading(false);
-    } catch (error) {
-      setError(error.message);
-      setLoading(false);
-    }
-  };
-
-  const fetchUsers = async () => {
-    setLoading(true)
+  const fetchUsers = useCallback(async () => {
+    setLoading(true);
     try {
       const res = await fetch('/api/users');
       if (!res.ok) {
@@ -38,9 +22,9 @@ export const AppProvider = ({ children }) => {
       setError(error.message);
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchUserData = async (email) => {
+  const fetchUserData = useCallback(async (email) => {
     try {
       const response = await fetch(`/api/users?email=${encodeURIComponent(email)}`, {
         method: 'GET',
@@ -57,7 +41,25 @@ export const AppProvider = ({ children }) => {
     } catch (err) {
       setError(err.message);
     }
-  };
+  }, []);
+
+  const updateRanks = useCallback(async () => {
+    try {
+      setLoading(true);
+      // Call the PUT endpoint to update ranks
+      const res = await fetch('/api/ranks', {
+        method: 'PUT',
+      });
+      if (!res.ok) {
+        throw new Error('Failed to update ranks');
+      }
+      // After updating, fetch the latest user data
+      await fetchUsers();
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  }, [fetchUsers]);
 
 
 

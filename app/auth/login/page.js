@@ -2,7 +2,7 @@
 
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Header from '../../components/Header/Header';
 import styles from './login.module.scss';
 import {AppProvider} from "../../../app/contexts/UserContext"
@@ -14,18 +14,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   const router = useRouter();
-
-  useEffect(() => { //Function to have the element columns slide in
-    if (!router.isReady) return;
-    const handleRouteChangeComplete = () => {
-      setLoginSlideClass('slide-in-left'); 
-      setTitleSlideClass('slide-in-right'); 
-    };
-    router.events.on('routeChangeComplete', handleRouteChangeComplete);
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChangeComplete);
-    };
-  }, [router.events, router.isReady]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -50,10 +38,10 @@ const Login = () => {
       if (response.ok) {
         Cookies.set('userEmail', email, {
           expires: 30,
-          secure: false,
+          secure: process.env.NODE_ENV === 'production',
           sameSite: 'strict',
         });
-        router.push('/'); 
+        router.push('/');
       }
 
     } catch (error) {
