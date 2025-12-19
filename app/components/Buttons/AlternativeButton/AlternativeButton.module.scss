@@ -1,13 +1,47 @@
 @import '../../../css/colors.scss';
+@import '../../../css/tokens.scss';
+@import '../../../css/mixins.scss';
 
-.buttonDefault{
-  height: 50px;
-  width: 100px;
-  border-radius: 10px;
-  font-weight: 540;
-  font-size: 14pt;
-  background-color: $black;
+.buttonDefault {
+  // Close to original size
+  height: 3.125rem;      // 50px - original
+  min-width: 6.25rem;    // 100px - original
+  padding: $space-2 $space-5; // 8px 24px - moderate padding
+
+  // Modern typography
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;  // 14px
   color: $white;
-  border-color: $white;
+
+  // Enhanced visual depth
+  border-radius: $radius-lg;
+  background-color: $black;
+  border: 2px solid $white;
+
+  // Add depth with shadow and inset highlight
+  box-shadow: $shadow-md,
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
   cursor: pointer;
+  transition: all $transition-base ease;
+
+  // Modern hover state with lift effect
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg,
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background-color: lighten($black, 8%);
+    border-color: $secondaryColor2;
+  }
+
+  // Active state feedback
+  &:active {
+    transform: translateY(0);
+    box-shadow: $shadow-sm;
+  }
+
+  // Focus state for keyboard accessibility
+  &:focus-visible {
+    @include focus-ring($white);
+  }
 }

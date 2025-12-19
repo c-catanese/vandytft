@@ -1,0 +1,139 @@
+// ============================================
+// VandyTFT Design System Mixins
+// ============================================
+// Reusable SCSS mixins for consistent styling
+
+@import './tokens.scss';
+@import './colors.scss';
+
+// ============================================
+// Mobile-First Responsive Mixins
+// ============================================
+// Usage: @include md { ... }
+// These use min-width for mobile-first approach
+
+@mixin sm {
+  @media (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+@mixin xxl {
+  @media (min-width: $breakpoint-2xl) {
+    @content;
+  }
+}
+
+// ============================================
+// Glassmorphism Mixin
+// ============================================
+// Creates a frosted glass effect
+// Usage: @include glass($black, 0.85);
+
+@mixin glass($bg-color, $opacity: $glass-opacity) {
+  background: rgba($bg-color, $opacity);
+  backdrop-filter: blur($glass-blur);
+  -webkit-backdrop-filter: blur($glass-blur);
+  border: 1px solid $glass-border;
+}
+
+// ============================================
+// Card Elevation Mixin
+// ============================================
+// Adds depth with shadows and hover effects
+// Usage: @include card-elevated('md');
+// Levels: sm, md, lg, xl
+
+@mixin card-elevated($level: 'md') {
+  @if $level == 'sm' {
+    box-shadow: $shadow-sm;
+  } @else if $level == 'md' {
+    box-shadow: $shadow-md;
+  } @else if $level == 'lg' {
+    box-shadow: $shadow-lg;
+  } @else if $level == 'xl' {
+    box-shadow: $shadow-xl;
+  }
+
+  transition: transform $transition-base ease,
+              box-shadow $transition-base ease;
+
+  &:hover {
+    transform: translateY(-2px);
+
+    @if $level == 'sm' {
+      box-shadow: $shadow-md;
+    } @else if $level == 'md' {
+      box-shadow: $shadow-lg;
+    } @else if $level == 'lg' {
+      box-shadow: $shadow-xl;
+    } @else if $level == 'xl' {
+      box-shadow: $shadow-2xl;
+    }
+  }
+}
+
+// ============================================
+// Focus Ring Mixin
+// ============================================
+// Accessible focus states for keyboard navigation
+// Usage: @include focus-ring($secondaryColor2);
+
+@mixin focus-ring($color: $secondaryColor2) {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba($color, 0.4);
+  transition: box-shadow $transition-fast ease;
+}
+
+// ============================================
+// Text Shadow Mixin
+// ============================================
+// Subtle text depth
+// Usage: @include text-shadow();
+
+@mixin text-shadow($opacity: 0.1) {
+  text-shadow: 2px 2px 4px rgba($black, $opacity);
+}
+
+// ============================================
+// Container Mixin
+// ============================================
+// Max-width container with responsive padding
+// Usage: @include container();
+
+@mixin container($max-width: 1280px) {
+  width: 100%;
+  max-width: $max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $space-5;
+  padding-right: $space-5;
+
+  @include md {
+    padding-left: $space-6;
+    padding-right: $space-6;
+  }
+
+  @include lg {
+    padding-left: $space-8;
+    padding-right: $space-8;
+  }
+}

@@ -1,13 +1,50 @@
 @import '../../../css/colors.scss';
+@import '../../../css/tokens.scss';
+@import '../../../css/mixins.scss';
 
-.buttonDefault{
-  height: 40px;
-  width: 80px;
-  border-radius: 10px;
-  font-weight: 540;
-  font-size: 14pt;
-  background: linear-gradient(to right, $secondaryColor2,  $secondaryColor1, );;
+.buttonDefault {
+  // Sizing close to original
+  height: 2.5rem;        // 40px - original
+  min-width: 5rem;       // 80px - original
+  padding: $space-1 $space-4; // 4px 16px - moderate padding
+
+  // Modern typography
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;  // 14px - close to original 14pt
   color: $black;
-  border-color: $secondaryColor2;
+  white-space: nowrap;  // Prevent text wrapping
+  text-align: center;  // Center text within button
+
+  // Enhanced visual depth
+  border-radius: $radius-lg;
+  background: linear-gradient(135deg, $secondaryColor2, $secondaryColor1);
+  border: 1px solid rgba($secondaryColor1, 0.3);
+
+  // Add depth with shadows
+  box-shadow: $shadow-md;
+
   cursor: pointer;
+  transition: all $transition-base ease;
+
+  // Modern hover state with lift effect
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+    background: linear-gradient(
+      135deg,
+      lighten($secondaryColor2, 3%),
+      lighten($secondaryColor1, 3%)
+    );
+  }
+
+  // Active state feedback
+  &:active {
+    transform: translateY(0);
+    box-shadow: $shadow-sm;
+  }
+
+  // Focus state for keyboard accessibility
+  &:focus-visible {
+    @include focus-ring($secondaryColor2);
+  }
 }

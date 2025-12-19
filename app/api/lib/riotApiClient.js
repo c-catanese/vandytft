@@ -20,6 +20,16 @@ const leagueApiLimiter = new Bottleneck({
   reservoirRefreshInterval: 1000  // 1 second
 });
 
+// Rate limiter for Match API
+// 250 requests every 10 seconds = 40ms between calls (for by-puuid/ids endpoint)
+const matchApiLimiter = new Bottleneck({
+  minTime: 40,           // ~250 req/10s
+  maxConcurrent: 10,     // Max concurrent requests
+  reservoir: 250,        // Token bucket capacity
+  reservoirRefreshAmount: 250,
+  reservoirRefreshInterval: 10 * 1000  // 10 seconds
+});
+
 // Add event listeners for debugging (optional)
 accountApiLimiter.on('failed', async (error, jobInfo) => {
   console.error('Account API rate limiter job failed:', error.message);
@@ -27,6 +37,10 @@ accountApiLimiter.on('failed', async (error, jobInfo) => {
 
 leagueApiLimiter.on('failed', async (error, jobInfo) => {
   console.error('League API rate limiter job failed:', error.message);
+});
+
+matchApiLimiter.on('failed', async (error, jobInfo) => {
+  console.error('Match API rate limiter job failed:', error.message);
 });
 
 /**
@@ -162,5 +176,30 @@ export async function getAccountByPuuid(puuid) {
  */
 export async function getLeagueByPuuid(puuid) {
   const url = `https://na1.api.riotgames.com/tft/league/v1/by-puuid/${encodeURIComponent(puuid)}`;
+  console.log(`[API-CALL] Fetching league data from: ${url}`);
   return await makeRateLimitedRequest(url, leagueApiLimiter);
+}
+
+/**
+ * Get match IDs for a player by PUUID
+ * @param {string} puuid - The player's PUUID
+ * @param {number} start - Starting index (default 0)
+ * @param {number} count - Number of match IDs to return (default 5, max 20)
+ * @returns {Promise<{success: boolean, data?: Array<string>, error?: string, statusCode?: number}>}
+ */
+export async function getMatchIdsByPuuid(puuid, start = 0, count = 5) {
+  const url = `https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/${encodeURIComponent(puuid)}/ids?start=${start}&count=${count}`;
+  console.log(`[API-CALL] Fetching match IDs from: ${url}`);
+  return await makeRateLimitedRequest(url, matchApiLimiter);
+}
+
+/**
+ * Get match details by match ID
+ * @param {string} matchId - The match ID
+ * @returns {Promise<{success: boolean, data?: Object, error?: string, statusCode?: number}>}
+ */
+export async function getMatch(matchId) {
+  const url = `https://americas.api.riotgames.com/tft/match/v1/matches/${encodeURIComponent(matchId)}`;
+  console.log(`[API-CALL] Fetching match data from: ${url}`);
+  return await makeRateLimitedRequest(url, matchApiLimiter);
 }

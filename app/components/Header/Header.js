@@ -16,9 +16,9 @@ const Header = () => {
 
   const { updateRanks, user, setUser } = useAppContext()
   const isRoot = usePathname() === '/'
-  const buttonContainer = user 
-    ? { width: isRoot ? '170px' : '255px' } 
-    : { width: isRoot ? '255px' : '170px' }
+  const buttonContainer = user
+    ? { width: isRoot ? '170px' : '255px' }
+    : { width: isRoot ? '340px' : '255px' }  // 340px on homepage for 3 buttons, 255px otherwise
 
 
   return(

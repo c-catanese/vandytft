@@ -1,111 +1,149 @@
 @import '../../css/colors.scss';
+@import '../../css/tokens.scss';
+@import '../../css/mixins.scss';
 
-.user{
-  width: 700px;
-  height: 30px;
+.user {
+  // Mobile-first: 3-column layout
+  width: 100%;
+  max-width: 430px;
+  min-height: 30px;
+  height: auto;
+
   background-color: $black;
   color: $white;
+
   display: grid;
-  grid-template-columns: 100px 250px 250px 100px;
-  border-radius: 4px;
-  margin-top: 3px;
-  margin-bottom: 3px;
+  // Mobile/tablet grid: 3 columns
+  grid-template-columns: 180px 180px 60px;
+  gap: 0;
+
+  border-radius: $radius-sm;
+  padding: $space-1 0;
+
+  margin-top: $space-1;
+  margin-bottom: $space-1;
+
   align-items: center;
-  transition: transform .4s ease-out;
-  transform: scaleX(1) scaleY(1);
   cursor: pointer;
-}
-.user:hover{
-  transition: transform 0.2s ease; 
-  transform: scaleX(1.02) scaleY(1.15);  
+
+  // Add subtle shadow
+  box-shadow: $shadow-sm;
+  transition: transform 0.2s ease;
+
+  // Refined hover
+  &:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: $shadow-md;
+  }
+
+  // Desktop: 4-column layout
+  @include md {
+    width: 700px;
+    max-width: none;
+    grid-template-columns: 100px 250px 250px 100px;
+  }
 }
 
-.username{
-  margin-left: 15px;
+.username,
+.place,
+.rank,
+.classOf {
+  margin-left: $space-2;
+  padding-right: $space-1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.place{
-  margin-left: 15px;
+.username {
+  // Mobile: full width available
+  width: 100%;
+
+  @include sm {
+    width: 180px;
+  }
 }
 
-
-.rank{
+.rank {
   display: inline;
   white-space: nowrap;
-  margin-left: 15px;
+
+  @include sm {
+    width: 180px;
+  }
 }
 
-.classOf{
-  margin-left: 15px;
+.classOf {
+  @include sm {
+    width: auto;
+  }
+
+  @include md {
+    width: auto;
+  }
 }
 
-.userSection{
+.userSection {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  gap: 0;  // No gap
+
+  // Ensure the section doesn't overflow its grid cell
+  min-width: 0;
+
+  @include sm {
+    max-width: 180px;
+  }
+
+  @include md {
+    max-width: none;
+  }
 }
 
-
-.smallSeperator{
+// Separator with original styling
+.seperator,
+.smallSeperator {
   width: 2px;
-  height: 22px;
-  border-radius: 1px;
+  height: 30px;
   background-color: $white;
+  border-radius: 1px;
+  flex-shrink: 0;  // Prevent shrinking
+  margin-left: auto;  // Push to right side of userSection
+}
+
+.smallSeperator {
+  height: 22px;
+}
+
+// Hide separators below md breakpoint (matches 3-column layout)
+@media (max-width: 767px) {
+  .seperator,
+  .smallSeperator {
+    display: none;
+  }
 }
 
 .lbHeading {
   pointer-events: none;
-  height: 40px;
-  margin-bottom: 8px;
+  height: 2.5rem;
+  margin-bottom: $space-2;
 }
 
-.seperator{
-  width: 2px;
-  height: 30px;
-  background-color: $white;
-  border-radius: 1px;
+// Hide place below md breakpoint (matches 3-column layout)
+@media (max-width: 767px) {
+  .placeContainer {
+    display: none;
+  }
 }
 
-.noPlace{
-  width: 600px;
-  grid-template-columns: 250px 250px 100px;
+.noPlace {
+  @include sm {
+    grid-template-columns: 250px 250px 100px;
+    max-width: 37.5rem;  // 600px
+  }
 }
 
-.hidden{
+.hidden {
   display: none;
 }
-
-
-@media (max-width: 750px) {
-  .placeContainer{
-    display: none;
-  }
-
-  .seperator{
-    display: none;
-  }
-  .smallSeperator{
-    display: none;
-  }
-
-  .user{
-    grid-template-columns: 180px 150px 30px;
-    width: 400px;
-  }
-
-  .userSection{
-    max-width: 180px;
-  }
-
-  .username{
-    width: 180px;
-  }
-  .rank{
-    width: 150px;
-  }
-  .classOf{
-    width: 30px;
-  }
-}
-

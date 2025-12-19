@@ -46,17 +46,33 @@ export const AppProvider = ({ children }) => {
   const updateRanks = useCallback(async () => {
     try {
       setLoading(true);
+      setError(null); // Clear previous errors
+
       // Call the PUT endpoint to update ranks
       const res = await fetch('/api/ranks', {
         method: 'PUT',
       });
+
+      const data = await res.json();
+
       if (!res.ok) {
-        throw new Error('Failed to update ranks');
+        throw new Error(data.error || 'Failed to update ranks');
       }
+
+      // Log the update results for debugging
+      console.log('Update ranks result:', data);
+
+      // Show user feedback if any updates failed
+      if (data.failed > 0) {
+        console.warn(`${data.failed} users failed to update`);
+      }
+
       // After updating, fetch the latest user data
       await fetchUsers();
     } catch (error) {
+      console.error('Update ranks error:', error);
       setError(error.message);
+    } finally {
       setLoading(false);
     }
   }, [fetchUsers]);

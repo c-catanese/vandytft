@@ -1,13 +1,8 @@
 @import '../../../css/colors.scss';
+@import '../../../css/tokens.scss';
+@import '../../../css/mixins.scss';
 
-.container{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-}
-.lbSectionContainer{
+.container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,60 +10,97 @@
   background-color: transparent;
 }
 
-.rankDelineator{
+.lbSectionContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+.rankDelineator {
   width: 100%;
   background-color: transparent;
-  height: 100px;
+  height: 6.25rem;  // 100px
+
   display: flex;
-  font-size: 30pt;
-  font-weight: 400;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-family: copperplate;
-  margin-bottom: 10px;
+  gap: $space-4;  // Reduced gap
 
+  font-size: clamp($font-size-lg, 4vw, $font-size-2xl);
+  font-weight: $font-weight-normal;
+  font-family: copperplate, serif;
+
+  margin-bottom: $space-2;
+  padding: 0;
+
+  // Add subtle depth
+  @include text-shadow(0.15);
 }
 
-.rankLogo{
-  width: 80px;
-  height: 80px;
-  margin: 0px 30px;
+.rankLogo {
+  width: 5rem;  // 80px
+  height: 5rem;
   background-size: contain;
   background-repeat: no-repeat;
   background-color: transparent;
+
+  transition: transform $transition-base ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  // Responsive sizing
+  @include md {
+    width: 6rem;  // 96px
+    height: 6rem;
+  }
 }
 
-.Challenger{
-  background-image: url('/challenger.png')
+// Rank images
+.Challenger {
+  background-image: url('/challenger.png');
 }
-.Grandmaster{
-  background-image: url('/grandmaster.png')
+
+.Grandmaster {
+  background-image: url('/grandmaster.png');
 }
-.Master{
-  background-image: url('/master.png')
+
+.Master {
+  background-image: url('/master.png');
 }
-.Diamond{
-  background-image: url('/diamond.png')
+
+.Diamond {
+  background-image: url('/diamond.png');
 }
-.Emerald{
-  background-image: url('/emerald.png')
+
+.Emerald {
+  background-image: url('/emerald.png');
 }
-.Platinum{
-  background-image: url('/platinum.png')
+
+.Platinum {
+  background-image: url('/platinum.png');
 }
-.Gold{
-  background-image: url('/gold.png')
+
+.Gold {
+  background-image: url('/gold.png');
 }
-.Silver{
-  background-image: url('/silver.png')
+
+.Silver {
+  background-image: url('/silver.png');
 }
-.Bronze{
-  background-image: url('/bronze.png')
+
+.Bronze {
+  background-image: url('/bronze.png');
 }
-.Iron{
-  background-image: url('/iron.png')
+
+.Iron {
+  background-image: url('/iron.png');
 }
-.Unranked{
-  background-image: url('/unranked.png')
+
+.Unranked {
+  background-image: url('/unranked.png');
 }

@@ -1,28 +1,63 @@
 @import '../../css/colors.scss';
+@import '../../css/tokens.scss';
+@import '../../css/mixins.scss';
 
-.headerContainer{
-  height: 100px;
-  width: 100vw;
+.headerContainer {
+  height: 6.25rem;  // 100px
+  width: 100%;      // FIX: Changed from 100vw to eliminate horizontal scroll
   background-color: $black;
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 20px 5px 20px;
+
+  // Responsive padding
+  padding: $space-3 $space-5;
+
+  @include sm {
+    padding: $space-4 $space-6;
+  }
+
+  @include lg {
+    padding: $space-4 $space-8;
+  }
+
+  // Add subtle shadow for depth
+  box-shadow: $shadow-md;
+  position: relative;
+  z-index: $z-sticky;
 }
 
-.accountNav{
+.accountNav {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  gap: $space-3;
+  align-items: center;
+  justify-content: center;  // Center buttons within container
+
+  @include sm {
+    gap: $space-4;
+  }
 }
 
-.vanderbiltLogo{
-  width: 50px;
-  height: 50px;
+.vanderbiltLogo {
+  width: 3.125rem;  // 50px
+  height: 3.125rem;
   cursor: pointer;
   background-image: url('/vandytft.svg');
   background-size: contain;
   background-repeat: no-repeat;
-  margin-right: 10px;
+
+  transition: transform $transition-base ease;
+
+  &:hover {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  // Responsive sizing
+  @include md {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
 }

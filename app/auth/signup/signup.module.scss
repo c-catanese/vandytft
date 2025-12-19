@@ -1,13 +1,27 @@
 @import '../../css/colors.scss';
+@import '../../css/tokens.scss';
+@import '../../css/mixins.scss';
 
-.loginContainer{
-  width: 100vw;
-  min-height: calc(100vh - 100px);
+.loginContainer {
+  width: 100%;  // FIX: Changed from 100vw to eliminate horizontal scroll
+  min-height: calc(100vh - 6.25rem);  // Account for header (100px)
   background-color: $primaryColor;
+  color: $black;
+
   display: grid;
-  grid-template-columns: 33% 1fr;
+  // Mobile-first: single column
+  grid-template-columns: 1fr;
+
+  @include md {
+    grid-template-columns: 40% 1fr;
+  }
+
+  @include lg {
+    grid-template-columns: 33% 1fr;
+  }
 }
 
+// Animations (keep existing)
 @keyframes slideInLeft {
   from {
     transform: translateX(-100%);
@@ -37,23 +51,30 @@
 
 .loginColumn {
   background-color: #807b6c;
-  min-height: calc(100vh - 100px);
-  left: 0;
+  min-height: calc(100vh - 6.25rem);
+
   display: flex;
-  padding-top: 10%;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+
+  // Responsive padding - moderate
+  padding: $space-6 $space-4;  // 32px 16px
+
+  @include md {
+    padding: $space-8 $space-5;  // 48px 24px
+  }
+
   position: relative;
-  transition: transform .75s ease;
+  transition: transform 0.75s ease;
 }
 
 .loginColumn.slide-in-left {
-  animation: slideInLeft .75s forwards;
+  animation: slideInLeft 0.75s forwards;
 }
 
 .titleColumn.slide-in-right {
-  animation: slideInRight .75s forwards;
+  animation: slideInRight 0.75s forwards;
 }
 
 .loginColumn.slide-out {
@@ -64,154 +85,186 @@
   animation: slideOut 0.5s forwards;
 }
 
-
-.loginTitle{
+.loginTitle {
   background-color: transparent;
-  font-size: 24pt;
+  font-size: $font-size-lg;  // 18px - reduced to fit
+  font-weight: $font-weight-bold;
+  margin-bottom: $space-4;
+  white-space: nowrap;  // Prevent text wrapping
 }
 
-.titleColumn{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-size: 30pt;
-  transition: transform .75s ease;
+.titleColumn {
+  // Hide on mobile
+  display: none;
+
+  @include md {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  font-size: $font-size-2xl;  // 32px - closer to original 30pt
+  transition: transform 0.75s ease;
   background-color: transparent;
 }
 
-.title{
+.title {
   background-color: transparent;
+  font-size: $font-size-2xl;  // 32px
+
+  @include text-shadow(0.15);
 }
 
-.input{
+// Modern input styling
+.input {
   background-color: lighten($primaryColor, 5%);
-  border-radius: 8px;
-  padding-left: 5px;
-  font-size: 12pt;
-  height: 30px;
-  width: 300px;
-  border: none; 
-  outline: none; 
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); 
+  backdrop-filter: blur(8px);
+
+  border-radius: $radius-md;
+  border: 2px solid transparent;
+
+  padding: $space-2 $space-3;  // 8px 12px - more conservative
+  font-size: $font-size-sm;    // 14px
+
+  height: 2.5rem;  // 40px - closer to original
+  width: 100%;
+  max-width: 18.75rem;  // 300px - matches original
+
+  box-shadow: $shadow-sm;
+  transition: all $transition-base ease;
+
+  &:hover {
+    border-color: rgba($secondaryColor2, 0.3);
+  }
+
+  &:focus-visible {
+    outline: none;
+    background-color: $secondaryColor2;
+    border-color: $secondaryColor1;
+    box-shadow: $shadow-md,
+                0 0 0 3px rgba($secondaryColor2, 0.3);
+  }
+
+  &::placeholder {
+    color: rgba($black, 0.6);
+  }
+
+  // Specific input variations
+  &.email {
+    margin-top: $space-6;  // 32px - reduced
+  }
+
+  &.password {
+    margin-top: $space-4;  // 16px - reduced
+  }
+
+  &.username {
+    width: 66.67%;
+    max-width: none;
+    border-right: none;
+    border-radius: $radius-md 0 0 $radius-md;
+  }
+
+  &.tagline {
+    width: 33.33%;
+    max-width: none;
+    border-left: none;
+    border-radius: 0 $radius-md $radius-md 0;
+  }
+
+  &.class {
+    margin-top: $space-5;
+    appearance: none;
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+
+    // Hide spinner buttons
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
 }
 
-.input:focus-visible{
-  outline: none;
-  background-color: $secondaryColor2;
-}
-
-.input::placeholder{
-  color: black
-}
-
-
-.input.email{
-  margin: 40px 0px 0px 0px;
-}
-
-.input.password{
-  margin: 20px 0px 0px 0px;
-}
-
-
-.usernameContainer{
-  margin: 20px 0px 0px 0px;
+.usernameContainer {
+  margin-top: $space-5;
   background-color: transparent;
-
+  display: flex;
+  width: 100%;
+  max-width: 18.75rem;
 }
 
-.input.username{
-  width: 200px;
-  border-right: none;
-  border-radius: 0px;
-  border-radius: 8px 0px 0px 8px;
-}
-
-.input.tagline{
-  width: 100px;
-  border-left: none;
-  border-radius: 0px 8px 8px 0px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-}
-
-.input.class {
-  margin: 20px 0px 0px 0px;
-  appearance: none; /* Removes default styles in some browsers */
-  -moz-appearance: textfield; /* Firefox */
-  -webkit-appearance: none; /* Safari and Chrome */
-  outline: none; /* Removes outline if you click */
-}
-
-/* Hides the spinner buttons in Webkit browsers */
-.input.class::-webkit-inner-spin-button, 
-.input.class::-webkit-outer-spin-button {
-  -webkit-appearance: none; /* Chrome and Safari */
-  margin: 0; /* Removes margin */
-}
-
-.vanderbiltStar{
-  width: 100px;
-  height: 100px;
+.vanderbiltStar {
+  background-color: transparent;
+  width: 6.25rem;  // 100px
+  height: 6.25rem;
   background-image: url('/vanderbiltstar.png');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  margin-right: 20px;
+  margin-right: $space-5;
   border: none;
-  background-color: transparent;
+
+  @include md {
+    width: 5rem;  // 80px
+    height: 5rem;
+  }
+
+  @include lg {
+    width: 6.25rem;  // 100px
+    height: 6.25rem;
+  }
 }
 
-.signUpForm{
+.signUpForm {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: $space-5;  // Use gap for consistent spacing
   background-color: transparent;
+  width: 100%;
+  max-width: 25rem;
 }
 
-.formError{
+.formError {
   color: darkred;
-  margin-top: 10px;
+  margin-top: $space-3;
   text-shadow: 0 0 1px white;
-  font-weight: bolder;
+  font-weight: $font-weight-bold;
   background-color: transparent;
 }
 
-.submitButton{
+.submitButton {
   color: $black;
-  border-radius: 10px;
-  width: 100px;
-  height: 30px;
-  margin-top: 20px;
-  background: linear-gradient(to right, $secondaryColor2,  $secondaryColor1, );;
-  border: none; 
-  outline: none; 
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); 
-}
+  border-radius: $radius-lg;
+  min-width: 10rem;    // 160px - increased to ensure text fits on one line
+  height: 2.5rem;      // 40px - closer to original
+  padding: $space-1 $space-2;  // 4px 8px - reduced horizontal padding
 
+  margin-top: $space-4;
 
-@media (max-width: 1080px) {
-  .loginContainer{
-    grid-template-columns: 40% 1fr;
-  }
-  .vanderbiltStar{
-    width: 80px;
-    height: 80px;
+  background: linear-gradient(135deg, $secondaryColor2, $secondaryColor1);
+  border: 2px solid transparent;
+  box-shadow: $shadow-md;
+
+  font-weight: $font-weight-semibold;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all $transition-base ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+    border-color: rgba($secondaryColor1, 0.5);
   }
 
-  .title{
-    font-size: 30pt;
+  &:active {
+    transform: translateY(0);
   }
-}
 
-@media (max-width: 900px) {
-  .titleColumn{
-    display: none;
-  }
-  .loginContainer{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  &:focus-visible {
+    @include focus-ring($secondaryColor2);
   }
 }

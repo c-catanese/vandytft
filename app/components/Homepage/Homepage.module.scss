@@ -1,43 +1,60 @@
 @import '../../css/colors.scss';
+@import '../../css/tokens.scss';
+@import '../../css/mixins.scss';
 
-.homepageContainer{
-  width: 100vw;
-  min-height: calc(100vh - 100px);
+.homepageContainer {
+  width: 100%;  // FIX: Changed from 100vw
+  min-height: calc(100vh - 6.25rem);  // Account for header
   background-color: $primaryColor;
+  color: $black;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  // Add padding for breathing room
+  padding: $space-5 $space-4;
+
+  @include md {
+    padding: $space-6 $space-5;
+  }
 }
 
-.title{
+.title {
   background-color: transparent;
   color: $black;
-  font-size: 30pt;
-  font-weight: 400;
-  font-family: copperplate;
-  margin: 30px 0px 20px 0px;
+  font-size: $font-size-2xl;  // 32px - closer to original 30pt
+  font-weight: $font-weight-normal;
+  font-family: copperplate, serif;
+
+  margin-bottom: $space-4;
+  text-align: center;
+
+  // Add subtle text shadow for depth
+  @include text-shadow(0.1);
 }
 
-.column{
+.column {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  gap: $space-3;  // Reduced gap
   background-color: transparent;
+  width: 100%;
 }
 
-.loading{
+.loading {
   color: $black;
   background-color: transparent;
-  font-size: 30pt;
-  font-weight: 400;
-  font-family: copperplate;
-  margin-top: 200px;
-}
+  font-size: $font-size-2xl;  // 32px
+  font-weight: $font-weight-normal;
+  font-family: copperplate, serif;
+  margin-top: $space-10;
 
-.loading::after {
-  content: '.';
-  animation: dots 1s steps(1) infinite;
+  &::after {
+    content: '.';
+    animation: dots 1s steps(1) infinite;
+  }
 }
 
 @keyframes dots {
